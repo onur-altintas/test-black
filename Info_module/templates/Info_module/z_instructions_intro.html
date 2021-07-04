@@ -1,0 +1,54 @@
+{% load otree static %}
+
+<div class="card bg-light m-3">
+    <div class="card-body">
+
+    <h5 style="text-align:center; padding-bottom: 0px">Instructions:</h5>
+        <p style="padding: 0px">
+            In this business simulation, you will be the manager of a small bakery.
+            Every evening, as a manager, you order loaves of bread from your supplier to sell them on the next day.
+            The demand for the bread is <u><strong>uncertain</strong></u> and it fluctuates from day to day.
+            Historically, the demand was as low as 0 and as high as 300 loaves of bread a day.
+            Any unsold bread will be thrown away at the end of each day.
+                <span style="text-decoration: line-through;">When you are sold-out, you do not get any information about how many customers you could not serve. </span>
+
+            Your objective is to <strong> maximize your cumulative profit</strong>
+            for the <strong>next {{ total_rounds }} days.</strong>
+        </p>
+
+            <hr>
+            <h5 style="text-align:center; padding-bottom: 0px">Profit Analysis:</h5>
+             <p style="padding-top: 0px; text-align:left">
+                 On any given day, the demand for the bread might be less or more than the amount you ordered: </p>
+
+            <p><b>If you were sold-out:</b> &emsp;<br>
+                In this case, you sold everything you ordered. There might be some customers who came to the store,
+                saw that you were sold-out and left the bakery.
+                <!--If you ordered more breads, you might have sold more.-->
+                <div> <u>The formula for the profit for the sold-out case:</u> &ensp; </div>
+                <div class="text-center" style="font-size:12pt">(Unit selling price - Unit purchase cost) x (Number of breads sold)</div>
+            </p>
+                <p><b>If you had some leftovers:</b> &emsp; <br>
+                In this case, the demand for the bread was less than the amount you ordered in the last evening.
+                You served all of your customers came to the store.
+                However, at the end of the day, you had to throw all the unsold breads away.
+
+            <div><u>  The formula for the profit in the leftover case:</u></div>
+
+            <div class="text-center" style="font-size:12pt"> (Unit selling price - Unit purchase cost) x (Number of breads sold)
+                - (Unit purchase cost x Number of breads leftover)</div>
+            </p>
+
+
+        <!--
+        <hr>
+        <div style="text-align: center"><u><strong><s>Additional demand information for the first round:</s></strong></u></div>
+
+                           <s> You can find the historical demand information in the graph
+                               below to guide you when you make your first order decision.
+                        </s><u></u>
+-->
+                    </p>
+</div>
+</div>
+</div>

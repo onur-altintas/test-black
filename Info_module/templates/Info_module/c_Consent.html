@@ -1,0 +1,31 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block content %}
+    <div class="container">
+    <div class="row" >
+        <div class="col col-xs-6 col-sm-6 col-md-6 align-self-center" >
+            <h3>Consent Form</h3>
+        </div>
+        <div class="col col-xs-6 col-sm-6 col-md-6 ml-1 mr-3 mb-1" style="align: right;">
+            <img src="https://bit.ly/3iLpvTD" alt="logo" width="30%" align="right"/>
+        </div>
+    </div>
+
+        {% include Constants.irb_consent%}
+
+        <div class="text" style="border-style: solid; border-width: 1px">
+            <div class="text p-3">
+            If you would like to take part in this study after reading the information sheet above,
+            please click on "I consent" button below.
+            </div>
+            <div class="container">
+            <button class="otree-btn-next btn btn-primary center my-2" id="Consent_button">I consent</button>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
+
+

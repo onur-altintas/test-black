@@ -1,0 +1,85 @@
+{% load otree static %}
+
+    <div class="card bg-light p-3">
+        <p>
+            <!--The artificial Intelligence (A.I.) calculates the exact number of loaves to order for the next day based on previous sales and order quantity.-->
+            It is important to understand how BakerAI works when you decide whether to let BakerAI to order on your behalf or not.
+            Therefore, we would like to spend a couple minutes to explain the dynamics of the A.I. software below.
+        </p>
+        <p><div style="text-align: center;"><u><strong>How BakerAI software works:</strong></u><br></div>
+        <!--    On any given day, you will either sell all the breads you ordered (Sales = Ordered) or you will have some leftover
+            that needs to be thrown away (Sales < Ordered).
+            Now, we will analyze how A.I.'s recommendations change under these two cases.-->
+        </p>
+
+        <div class="row justify-content-center">
+            <div class="col-xs-6">
+                <p><strong>If you were sold-out:</strong><br>
+                Let's assume that in the evening of Day 6, you ordered 100 loaves to sell on Day 7. You sold all
+                    of 100 loaves of bread you ordered on Day 7.
+
+                    <!--
+                <i>The reason is that there is a high chance that you could have sold more and have made more profit.</i>-->
+                </p>
+                <table class="table table-bordered table-hover table-condensed mx-auto my-3" style="width: 400px">
+                    <thead>
+                    <tr align="center">
+                        <th scope="col" style="vertical-align:center">Day</th>
+                        <th scope="col"  >Amount <br>ordered</th>
+                        <th scope="col" style="color:darkgreen">Amount <br> sold</th>
+                        <th scope="col" style="color:darkred">Amount <br> leftover</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr align="center">
+                        <td>7</td>
+                        <td>100 loaves</td>
+                        <td>100 loaves</td>
+                        <td> 0 loaves</td>
+                    </tr>
+                    </tbody>
+                </table>
+                If you decide to use the A.I. for the next day (for Day 8), the A.I. will order more because you were sold out on Day 7.
+            </div>
+        </div>
+        <div class="row justify-content-center pt-4">
+            <div class="col-xs-6"  >
+                <p> <strong>If you had some leftovers:</strong><br>
+                    On Day 7, you ordered 100 loaves and you were sold-out.
+                    In the evening of Day 7, you decided to order 150 loaves (instead of 100 loaves) for Day 8.
+                    On Day 8, you didn't have that much demand for the bread and you could only sell 40 loaves.
+
+                    <!--<i>in order to decrease the number of loaves wasted.</i></p>-->
+
+                <table class="table table-bordered table-hover table-condensed mx-auto my-3" style="width: 400px">
+                    <thead>
+                    <tr align="center">
+                        <th scope="col" style="vertical-align:center">Day</th>
+                        <th scope="col">Amount <br>ordered</th>
+                        <th scope="col" style="color:darkgreen">Amount <br> sold</th>
+                        <th scope="col" style="color:darkred">Amount <br> leftover</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr align="center">
+                        <td>8</td>
+                        <td>150 loaves</td>
+                        <td>40 loaves</td>
+                        <td>90 loaves</td>
+                    </tr>
+                    </tbody>
+                </table>
+                If you decide to use the A.I. for the next day (Day 9), the A.I. will order less than 150 loaves for Day 9, because you had some leftovers on Day 8.
+
+                <div style="margin-top: 20px"> The exact order quantity amount will be determined by the A.I. software.</div>
+            </div>
+        </div>
+    <!--<p> The A.I. determines the exact number of loaves of bread to order by using a sophisticated algorithm on previous sales. </p>-->
+    </div>
+
+    <div class="container mt-2" style="text-align:center"> On the next page, your understanding on how BakerAI works will be tested. </div>
+    <div class="container -xs-6 mt-3" style="align: center">
+        <div style="text-align: center;">{% next_button %}</div>
+    </div>
+
+

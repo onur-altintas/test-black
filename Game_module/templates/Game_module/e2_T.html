@@ -1,0 +1,46 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+
+
+{% block content %}
+    <h4> Explaining how BakerAI works</h4>
+
+    {% if participant.vars.hidden_ai == True %}
+        {% include Constants.treatment_hidden %}
+    {% else %}
+        {% include Constants.treatment_visible %}
+    {% endif %}
+
+    <div class="container mt-2" style="text-align:center"> On the next page, your understanding of how BakerAI software works will be tested. </div>
+    <div class="container -xs-6 mt-3" style="text-align: center; padding-top: 15px;">
+        <button class="otree-btn-next btn btn-primary center"  style="text-align:center"  id="myBtn" >Next</button>
+    </div>
+
+
+
+    <script>
+        var sec = {{ Constants.wait_e2 }};
+        var myBtn = document.getElementById('myBtn');
+        window.onload = countDown;
+
+        function countDown() {
+          if (sec < 100) {
+              myBtn.disabled = true;
+              myBtn.innerHTML = "Next (" + sec + " sec)";
+          }
+          else {
+              myBtn.innerHTML = sec;
+          }
+          if (sec <= 0) {
+            myBtn.disabled=false;
+            myBtn.innerHTML = "Next";
+            return;
+          }
+          sec -= 1;
+          window.setTimeout(countDown, 1000);
+        }
+    </script>
+
+{% endblock %}
+

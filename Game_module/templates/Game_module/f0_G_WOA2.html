@@ -1,0 +1,124 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+
+
+{% block content %}
+    <div class="text-center mb-1" style="font-size:22pt; font-weight:bold"> Order for Day {{ round }} (out of {{ last_round }} Days) </div>
+
+    {% include Constants.instructions_template_a2 %}
+
+
+      <div class="card p-3">
+      <h5 style="text-align:center">Business Parameters:</h5>
+        <div style="font-size:13pt; text-align: center">Unit selling price (The amount your customers pay you per loaf): &nbsp; <b>{{ Constants.sale_price | c }} </b>
+        </div>
+
+        <div style="font-size:13pt; text-align:center">&nbsp;Unit purchase cost (The amount you pay your supplier per loaf): &nbsp; <b> {{ Constants.cost | c  }}  </b>
+        </div>
+      </div>
+
+
+    <div class="container mt-1">
+        <div class="row justify-content-around mt-3" style="padding-bottom:30px">
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <div class="text-left" style="margin-left:10px" id="iwlto"> You decided to order:</div>
+                <div class="input-group">
+                  <input type="integer" class="form-control" autofocus="true" placeholder="{{ oq_now }} loaves"
+                         aria-label="order_label" id="orderquantity" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center" id="ai_rec_line">
+            <hr>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <div class="text-center" style="padding-bottom: 0px;font-size: 14pt;font-weight: 500; border:2px solid;
+             border-color:#5cb85c" >
+                BakerAI recommends you to order: <br> <strong>{{ ai_recommendation }} loaves </strong></div>
+            </div>
+        </div>
+
+        <div class="row justify-content-around mt-3" style="padding-bottom:30px;" id="ai_block">
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="text-align: center">
+                <div class="text-left" style="margin-left:10px" > Please enter your new order quantity:</div>
+                    <div class="input-group">
+                  <input type="integer" class="form-control" autofocus="true"
+                         name="orderquantity2" id="orderquantity2">
+                    <div class="input-group-append">
+                        <button  class="btn btn-primary" id="order_button2">Submit</button>
+                    </div>
+                    {% if form.orderquantity2.errors %}
+                        <div class="text" style="color:red"> Please enter an integer value between [0-400].</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <hr>
+
+{% block scripts %}
+
+
+    <script>
+        var sec = {{ Constants.wait_game }};
+        var own = document.getElementById("order_button");
+
+        window.onload = countDown;
+
+        function countDown() {
+          if (sec < 100) {
+              own.innerHTML = "Submit (" + sec + " sec)";
+          }
+          else {
+              own.innerHTML = "Submit";
+          }
+          if (sec <= 0) {
+
+              own.disabled = false;
+              own.innerHTML = "Submit";
+
+            return;
+          }
+          sec -= 1;
+          window.setTimeout(countDown, 1000);
+        }
+    </script>
+
+{% endblock %}
+
+        <div style="text-align: center;padding-top: 20px;"><h3>My Performance History</h3></div>
+        <div class="container mt-4" style="text-align: center; font-weight:bold; font-size: 14pt">
+            My Cumulative profit: {{ cum_profit |c }} </div><br>
+
+        <div class="container">
+             <div class="row justify-content-center">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9">
+                    <table class="table table-bordered table-hover table-condensed">
+                        <tr valign="bottom" align="center">
+                         <td><br>Day</td>
+                            <td style="color:gray; border-right: 0px solid">BakerAI<br>recommended</td>
+                            <td style="font-weight: 500; ">Amount<br>Ordered</td>
+                            <td style="color:darkgreen">Amount<br>Sold</td>
+                            <td style="color:darkred">Amount <br> Leftover</td><td><br>Profit</td>
+                        </tr>
+                        {% for p in player_in_prev_rounds %}
+                            <tr align="center">
+                                <td>{{ p.round_number }}</td>
+                                <td style="color:gray;border-right: 0px solid">{{ p.ai_text }}</td>
+                                <td style="font-weight: 500">{{ p.orderquantity2 }} loaves</td>
+                                <td>{{ p.sales }} loaves</td>
+                                <td>{{ p.leftover }} loaves</td>
+                                <td>{{ p.profit | c }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+             </div>
+        </div>
+
+
+
+{% endblock %}
+

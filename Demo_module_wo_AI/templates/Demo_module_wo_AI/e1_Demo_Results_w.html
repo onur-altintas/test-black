@@ -1,0 +1,111 @@
+{% extends "global/Base.html" %}
+{% load staticfiles otree_tags %}
+
+
+
+{% block content %}
+    <div class="text mb-3" style="text-align: center; font-weight:600; font-size:24pt; font-family:'Helvetica Neue'" id="end_head"></div>
+    <h3><div style="text-align: center;"> Results of Demo Day {{ round }}</div></h3>
+
+
+
+
+    <div class="container mb-1" style="margin-top:80px">
+    <div class="row justify-content-center">
+        <div class="text-center mb-3" style="font-size: 14pt">
+            <strong>Realized Demand:</strong> {{ player.demand }} loaves
+        </div>
+        <div class="col col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <table class="table table-bordered">
+                <tr align="right">
+                    <td > Amount ordered: </td><td> {{ player.orderquantity}} loaves </td>
+                </tr>
+                <tr align="right">
+                    <td > Amount sold: </td><td> {{ player.sales}} loaves </td>
+                </tr>
+                <tr align="right">
+                    <td > Amount leftover: </td><td> {{ player.leftover}} loaves</td>
+                </tr>
+            </table>
+        </div>
+        <div class="col col-xs-8 col-sm-7 col-md-7 col-lg-6">
+            <table class="table table-bordered">
+                <tr align="right">
+                    <td > Cost of Ordering:</td><td> {{ player.cost | c }}</td> <td align="left"> (={{ player.orderquantity }} loaves x {{ Constants.cost |c }})</td>
+                </tr>
+                <tr align="right">
+                    <td > Revenue:</td><td> {{ player.revenue | c }}</td> <td align="left"> (={{ player.sales }} loaves x {{ Constants.sale_price | c}})</td>
+                </tr>
+                <tr align="right">
+                    {%  if player.profit < 0 %} <td style="color:darkred;font-weight:600">Today's loss: </td> <td> {{ abs_profit |c }} </td>{% else %} <td style="color:darkgreen;font-weight:600"> Today's profit: </td>
+                        <td >{{ player.profit | c }} </td>{% endif %}
+                    <td align="left">(={{ player.revenue | c }} - {{ player.cost |c }}) </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    </div>
+
+    <div class="container" style="margin-bottom: 70px; width:85%">
+        <div class="card mx-3 p-3" >
+            <div style="font-size:12pt; text-align: center">Unit selling price (The amount your customers pay you per loaf): &nbsp; <b>{{ Constants.sale_price | c }} </b>
+            </div>
+
+            <div style="font-size:12pt; text-align:center">&nbsp;Unit purchase cost (The amount you pay your supplier per loaf): &nbsp; <b> {{ Constants.cost | c  }}  </b>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="text mt-3" style="text-align: center;">
+        <p class="text my-1" id="end_demo_text"></p>
+        <button class="otree-btn-next btn btn-primary center" autofocus=true id="Demo_button">Next Demo Day</button>
+    </div>
+
+    <hr>
+
+
+    <script>
+    if ( {{ round }} == {{ Constants.num_rounds }} ){
+        document.getElementById("Demo_button").innerText = 'Continue to Actual Simulation'
+        document.getElementById("end_demo_text").style.fontWeight = 700
+        document.getElementById("end_demo_text").innerText ='The demo has ended. ' +
+            '\n Now, we will move on to the actual simulation.'
+        document.getElementById("end_head").innerText = 'End of Demo Rounds'
+    }
+    </script>
+
+    <div style="text-align: center;"><h3>My Demo Performance History</h3></div>
+    <div class="container mt-4" style="text-align: center; font-weight:bold; font-size: 14pt"> My Demo Cumulative profit: {{ cum_profit |c }} </div><br>
+
+
+        <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9">
+                <table class="table table-bordered table-hover table-condensed" >
+                    <tr valign="bottom" align="center">
+                        <td>Demo <br>Day </td>
+                        <td>Realized<br>Demand</td>
+                        <td>Amount<br>Ordered</td>
+                        <td style="color:darkgreen">Amount<br>Sold</td>
+                        <td style="color:darkred">Amount <br> Leftover</td>
+                        <td>Demo <br>Profit</td>
+                    </tr>
+                    {% for p in player_in_all_rounds %}
+                        <tr align="center">
+                            <td>{{ p.round_number }}</td>
+                            <td>{{ p.demand }} loaves </td>
+                            <td>{{ p.orderquantity }} loaves</td>
+                            <td>{{ p.sales }} loaves</td>
+                            <td>{{ p.leftover }} loaves</td>
+                            <td>{{ p.profit | c }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+        </div>
+    </div>
+
+{% endblock %}

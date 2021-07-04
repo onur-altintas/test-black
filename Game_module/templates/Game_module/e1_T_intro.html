@@ -1,0 +1,96 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+
+
+{% block content %}
+    <div class="container" style="padding-top: 100px"></div>
+    <h3 style="text-align:center"> SmartBaker Software Company has an offer for you <br> ({{ trial_period }} days free trial)  </h3>
+
+    <div class="container" style="padding-top: 10px"></div>
+    <div class="card bg-light pt-3 px-3 m-5">
+    {% if participant.vars.hidden_ai == False %}
+        <p>
+            A software company, called SmartBaker Co., is offering you a free trial of its new artificial intelligence software, BakerAI.
+            Every evening, the A.I. will recommend you how many breads you should order for the next day.</p>
+
+        {% if participant.vars.treatment == 'performance' %}
+            <p>
+                SmartBaker presented to you the results of extensive testing done on this A.I. software.
+                The vendor's analysis shows that users who followed the A.I.'s recommendations <strong>every day</strong>
+                were able to capture approximately <strong>80% </strong> of the theoretical maximum profit. <br>
+            </p>
+        {% endif %}
+        <p>
+            <strong> For the next {{ trial_period }} days</strong>, the recommendation from BakerAI will be available to you after you make your order quantity decision.
+            You will be able to change your order quantity after BakerAI makes its recommendation.
+        </p>
+        <p>
+            Please make your decision attentively. Every decision you make has a tremendous effect on your cumulative profit.
+        </p>
+
+    {% else %}
+        <p>
+            A software company, called SmartBaker Co., is offering you a free trial of its new artificial intelligence software, BakerAI.
+            Every evening, BakerAI will analyze the previous sales to decide how many loaves to order for the next day.</p>
+
+        <p>
+            BakerAI has trained on 100 historical data points which were shared with you in the first round
+            and its accuracy will improve as it collects more data points.
+            The analysis showed that the historical data has no trend that can be utilized by the A.I.
+            Therefore, the A.I. will <strong>not </strong> try to predict the next day's demand
+            but it will try to find the order quantity level that maximizes the long-term profit.
+        </p>
+
+        <p>
+                From now on, you will have the option to assign the order quantity decision to BakerAI.
+                You can keep using your best judgement to determine the order quantity for the next day or you can let the A.I. decide for you.</p>
+
+        <p>
+                Please make your decision attentively. Every decision you make has a tremendous effect on your cumulative profit.
+        </p>
+    {% endif %}
+    </div>
+    <!--
+    <div class="text" style="text-align: center;color:darkred">If BakerAI made the order decisions in the first 5 rounds, you would earn x E$ more/less</div> -->
+
+    {% if treatments == False %}
+        <div class="text" style="text-align:center; padding-top:20px">Please read the offer above. <p> <br> The next button will be available after {{ Constants.wait }} seconds. <br>
+            It will take you back to the simulation (you will continue from Day {{ round_plus }}) </p></div>
+    {% else %}
+        <div class="text" style="text-align:center; padding-top:20px"> Please read the offer above.<br> The next button will be available after {{ Constants.wait_e1 }} seconds. </div>
+    {% endif %}
+    <!--<div class="container mt-2" style="text-align:center; padding-top: 40px; padding-bottom:10px"> On the next page, your understanding on how SmartBaker A.I. software works will be tested. </div>-->
+    <div class="container -xs-6 mt-3" style="text-align: center; padding-top: 15px;">
+        <button class="otree-btn-next btn btn-primary center"  style="text-align:center"  id="myBtn" >Next</button>
+    </div>
+
+
+
+    <script>
+        var sec = {{ Constants.wait_e1 }};
+        var myBtn = document.getElementById('myBtn');
+        window.onload = countDown;
+
+        function countDown() {
+          if (sec < 100) {
+              myBtn.disabled = true;
+              myBtn.innerHTML = "Next (" + sec + " sec)";
+          }
+          else {
+              myBtn.innerHTML = sec;
+          }
+          if (sec <= 0) {
+            myBtn.disabled=false;
+            myBtn.innerHTML = "Next";
+            myBtn.focus()
+            return;
+          }
+          sec -= 1;
+          window.setTimeout(countDown, 1000);
+        }
+    </script>
+
+
+{% endblock %}
+

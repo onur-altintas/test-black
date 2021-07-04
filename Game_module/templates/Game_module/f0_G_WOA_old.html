@@ -1,0 +1,223 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+
+
+{% block content %}
+    <div class="text-center mb-1" style="font-size:22pt; font-weight:bold"> Order for Day {{ round }} (out of {{ simulation_rounds }} Days) </div>
+
+    {% include Constants.instructions_template_a2 %}
+
+
+      <div class="card p-3">
+      <h5 style="text-align:center">Business Parameters:</h5>
+        <div style="font-size:13pt; text-align: center">Unit selling price (The amount your customers pay you per loaf): &nbsp; <b>{{ Constants.sale_price | c }} </b>
+        </div>
+
+        <div style="font-size:13pt; text-align:center">&nbsp;Unit purchase cost (The amount you pay your supplier per loaf): &nbsp; <b> {{ Constants.cost | c  }}  </b>
+        </div>
+      </div>
+
+
+    <div class="container mt-1">
+        <div class="row justify-content-around mt-3" style="padding-bottom:30px">
+            <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+                <div class="text-left" style="margin-left:10px" id="iwlto"> I would like to order:</div>
+                <div class="input-group">
+                  <input type="integer" class="form-control" autofocus="true" placeholder="Please enter your quantity"
+                         aria-label="order_label" name="order_wip" id="order_wip" onkeypress="return validate()">
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-primary" id="order_button"
+                                onclick="sq()">Submit</button>
+                    </div>
+                    {% if form.orderquantity.errors %}
+                        <div class="text" style="color:red"> Please enter an integer value between [0-300].</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="container" id="ai_rec_line" hidden>
+            <hr>
+            <div class="text-center" style="padding-bottom: 0px;font-size: 13pt"> BakerAI recommends you to order: <strong>{{ ai_recommendation }} loaves </strong></div>
+            <div class="text-center" style="padding: 20px; font-weight: 700">Would you like to change your order quantity?</div>
+
+            <div class="row justify-content-center">
+                <div class="col-6" style="text-align: end; padding-right: 40px; padding-bottom: 30px">
+                    <button type="button" class="btn btn-primary" id="yesb"> <strong>Yes</strong>, I would like to change my order</button>
+                </div>
+                <div class="col-6" style="text-align: start; padding-left: 40px">
+                    <button class="btn btn-primary" id="nob" onclick="keep_q()"><strong>No</strong>, I would like to order : <span id="order-q"> </span> loaves</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-around mt-3" style="padding-bottom:30px;" id="ai_block" hidden>
+            <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5" style="text-align: center">
+                <div class="text-left" style="margin-left:10px" > I would like to order:</div>
+                    <div class="input-group">
+                  <input type="integer" class="form-control" autofocus="true" placeholder="Please enter your quantity"
+                         name="orderquantity2" id="orderquantity2" onkeypress="return validate()">
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-primary" id="order_button2" onclick="change_q()">Submit</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <hr>
+
+    <input type="hidden" id="keep_order" name="keep_q" value=0>
+    <input type="hidden" id="orderquantity_fill" name="orderquantity" value=0>
+{% block scripts %}
+    <script>
+        let oq = {{ oq }}
+        document.onload = reload_database(oq)
+
+        function reload_database(oq){
+            if (oq > 0){
+                document.getElementById("order_wip").value = oq;
+                document.getElementById("order_wip").disabled = true;
+                document.getElementById("iwlto").innerHTML = "You decided to order:"
+                document.getElementById("order_button").hidden = true;
+                document.getElementById("ai_rec_line").hidden = false;
+                document.getElementById("order-q").innerHTML = oq
+            }
+        }
+    </script>
+
+    <script>
+    document.getElementById("yesb").onclick = function (){
+        let x = document.getElementById("ai_block")
+        if (x.hidden == false){
+            x.hidden = true
+        }
+        else{
+            x.hidden = false
+        }
+    }
+
+    function keep_q(){
+        document.getElementById("keep_order").value = 1
+    }
+    </script>
+
+    <script>
+    function liveRecv(data){
+        console.log('received a message!', data);
+        document.getElementById("ai_rec_line").hidden = false;
+        document.getElementById("order_wip").disabled = true;
+        document.getElementById("order_button").disabled = true;
+        document.getElementById("iwlto").innerHTML = "You decided to order:";
+        document.getElementById("order-q").innerHTML = data["orderquantity1"]
+    }
+
+    function change_q(){
+        let new_q = document.getElementById("orderquantity2").value;
+        if (new_q == ''|| new_q == undefined){
+            alert("Please enter integer between 1 and 500")
+        }
+        else {
+            new_q = parseInt(new_q);
+            if (new_q > 500 || new_q < 1) {
+                alert("Please enter integer between 1 and 500")
+            } else {
+                liveSend({
+                    "orderquantity1": document.getElementById("order_wip").value,
+                    "orderquantity2": document.getElementById("orderquantity2").value
+                })
+                document.getElementById("form").submit()
+            }
+        }
+    }
+    </script>
+
+
+    <script>
+    function sq(){
+        let q = document.getElementById("order_wip").value;
+        if (q == '' || q == undefined){
+            alert("Please enter integer between 1 and 500")
+        }
+        else{
+            q = parseInt(q);
+            if (q >500 || q<1){
+                alert("Please enter integer between 1 and 500")
+            }
+            else{
+                liveSend({"orderquantity1": document.getElementById("order_wip").value, "orderquantity2": 0});
+            }
+        }
+    }
+
+    function validate(){
+        if ((event.keyCode < 48 || event.keyCode > 57)){
+           event.returnValue = false;
+        }
+    }
+    </script>
+
+
+    <script>
+        var sec = {{ Constants.wait_game }};
+        var own = document.getElementById("order_button");
+
+        window.onload = countDown;
+
+        function countDown() {
+          if (sec < 100) {
+              own.innerHTML = "Submit (" + sec + " sec)";
+          }
+          else {
+              own.innerHTML = "Submit";
+          }
+          if (sec <= 0) {
+
+              own.disabled = false;
+              own.innerHTML = "Submit";
+
+            return;
+          }
+          sec -= 1;
+          window.setTimeout(countDown, 1000);
+        }
+    </script>
+
+{% endblock %}
+
+        <div style="text-align: center;padding-top: 20px;"><h3>My Performance History</h3></div>
+        <div class="container mt-4" style="text-align: center; font-weight:bold; font-size: 14pt">
+            My Cumulative profit: {{ cum_profit |c }} </div><br>
+
+        <div class="container">
+             <div class="row justify-content-center">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9">
+                    <table class="table table-bordered table-hover table-condensed">
+                        <tr valign="bottom" align="center">
+                         <td><br>Day</td>
+                            <td style="color:gray; border-right: 0px solid">BakerAI<br>recommended</td>
+                            <td style="font-weight: 500; ">Amount<br>Ordered</td>
+                            <td style="color:darkgreen">Amount<br>Sold</td>
+                            <td style="color:darkred">Amount <br> Leftover</td><td><br>Profit</td>
+                        </tr>
+                        {% for p in player_in_prev_rounds %}
+                            <tr align="center">
+                                <td>{{ p.round_number }}</td>
+                                <td style="color:gray;border-right: 0px solid">{{ p.ai_text }}</td>
+                                <td style="font-weight: 500">{{ p.orderquantity }} loaves</td>
+                                <td>{{ p.sales }} loaves</td>
+                                <td>{{ p.leftover }} loaves</td>
+                                <td>{{ p.profit | c }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+             </div>
+        </div>
+
+
+
+{% endblock %}
+

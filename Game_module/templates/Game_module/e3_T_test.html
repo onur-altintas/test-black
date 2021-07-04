@@ -1,0 +1,89 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+
+
+{% block content %}
+
+    <h3> Test: How SmartBaker Artificial Intelligence works </h3>
+    <i>Please choose the option you think that is correct.</i>
+    <hr>
+
+    <div class="container">
+    <div class="row mb-4">
+        <div class="text">
+            Assume that you ordered 80 loaves for Day 2 and you sold only 30 loaves (and threw away 50 unsold loaves).
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        </div>
+        <div class="col col-xs-5 col-sm-5 col-md-5 col-lg-5">
+            <table class="table table-condensed table-bordered">
+                <thead>
+                <tr align="center">
+                    <th scope="col" style="vertical-align:center">Day</th>
+                    <th scope="col"  >Amount <br>ordered</th>
+                    <th scope="col" style="color:darkgreen">Amount <br> sold</th>
+                    <th scope="col" style="color:darkred">Amount <br> leftover</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr align="center">
+                    <td>2</td>
+                    <td>80 loaves</td>
+                    <td>30 loaves</td>
+                    <td>50 loaves</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        </div>
+    </div>
+    {% formfield player.treatment_test1 %}
+    </div>
+    <hr>
+    <div class="container">
+    <div class="row">
+        <div class="text mb-4">
+            Now assume, you ordered 220 loaves for Day 5 and sold all 220 loaves you ordered.
+            </div>
+    </div>
+        <div class="row">
+            <div class="col col-xs-3 col-sm-3 col-md-3 col-lg-3">
+            </div>
+            <div class="col col-xs-5 col-sm-5 col-md-5 col-lg-5">
+                <table class="table table-condensed table-bordered">
+                    <thead>
+                    <tr align="center">
+                        <th scope="col">Day</th>
+                        <th scope="col">Amount <br> ordered</th>
+                       <th scope="col" style="color:darkgreen">Amount <br> sold</th>
+                        <th scope="col" style="color:darkred">Amount <br> leftover</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr align="center">
+                        <td>5</td>
+                        <td>220 loaves</td>
+                        <td>220 loaves</td>
+                        <td>0 loaves</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col col-xs-3 col-sm-3 col-md-3 col-lg-3">
+            </div>
+        </div>
+        {% formfield player.treatment_test2 %}
+    </div>
+<hr>
+<div class="text mt-3" style="text-align: center;">
+        <p class="text my-5" id="end_demo_text" style="font-weight: bold">After answering these questions,
+            we will move back to the simulation.</p>
+        <button class="otree-btn-next btn btn-primary center" id="Demo_button">Continue to Day {{wo_ai_rounds1}}</button>
+    </div>
+
+{% endblock %}
+

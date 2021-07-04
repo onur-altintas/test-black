@@ -1,0 +1,83 @@
+{% extends "global/Base.html" %}
+{% load staticfiles otree_tags %}
+
+{% block title %}
+    <div style="text-align: center;"> Payment Information Page </div>
+{% endblock %}
+
+{% block content %}
+    <div style="text-align: center; font-size: 13pt; margin-top: 60px">
+        <p> Thank you for your participation. </p>
+    </div>
+
+    {% if cum_profit < 0 %}
+        <div style="text-align: center; font-size: 13pt">
+            <div>You have <span style="color:darkred;font-weight:600">lost  {{ abs_profit }} </span>  (experimental dollars) during the study.</div><br>
+            <div style="text-align:center; ">You will be paid {{ participation_pay }} for the completing the simulation
+                and ${{ quiz_pay }} for answering the questions correctly.
+            <br>However, you will not get any performance based additional payment due to the cumulative loss in the simulation.
+            </div>
+            <br>
+            <div style="text-align:center; font-weight:bold">In total, you will be paid {{ participation_quiz }}.
+            </div>
+        </div>
+    {%  else %}
+        <div style="text-align: center; font-size: 13pt">
+            <div>You have <span style="color:darkgreen;font-weight:600">made {{ cum_profit }} </span>(experimental dollars) of profit during the study.</div><br>
+            <div class="container" style="text-align:center;">The conversion of your simulation profit to USD is {{ payment }}</div>
+            <div> Additionally, you will be paid {{ participation_pay }} for completing the simulation
+                and ${{ quiz_pay }} for answering the questions correctly.</div>
+        <br>
+            <div style="text-align:center; font-weight:bold"> In total, you will be paid {{ total_pay }}</div>
+        </div>
+    {% endif %}
+
+
+    <div class="text mt-4 mb-1" style="text-align: center;font-size: 13pt; padding-top: 20px">Please do not forget to enter your completion code.</div>
+    <center><div class="text-center" style="text-align: center;font-size: 18pt; border: red 2px solid; width: 250px"> Your completion code : {{ code }}</div></center>
+
+    <div style="text-align: center; font-size: 16pt; font-weight: 700; padding-top: 50px">Payment Summary Table</div>
+    <div class="container">
+     <div class="row justify-content-center">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <table class="table table-bordered table-hover table-condensed">
+                <tr valign="bottom" align="left">
+                    <td style="border-right: 0px solid">Participation</td>
+                    <td>{{ participation_pay }}</td>
+                </tr>
+                <tr valign="middle" align="left">
+                    <td>Performance Bonus</td>
+                    {% if  cum_profit > 0  %}
+                        <td> {{ payment }} = ({{ cum_profit }} / {{ rate }})</td>
+                    {% else %}
+                        <td> $0   &nbsp; = ({{ cum_profit }}/{{ rate }}) </td>
+                    {% endif %}
+                </tr>
+                <tr valign="middle" align="left">
+                    <td> Questionnaire</td>
+                    <td> ${{ quiz_pay }} =  ({{ correct_answers }} correct answers x ${{ q_pay }})</td>
+                </tr>
+                <tr valign="middle" align="left">
+                    <td style="font-weight: bold"> Total payment </td>
+                    <td style="font-weight: bold"> {{ total_pay }}</td>
+                </tr>
+            </table>
+        </div>
+     </div>
+    </div>
+
+
+
+{% endblock %}
+<!--
+    <p class="text-center mt-5 ">
+            Please enter the following code to get your payment. It will be processed within a week.
+    </p>
+    <p class="text-center" style="font-weight: 600; font-size: 15pt"> Your code:</p>
+    <p class="text-center" id="code" style="font-size:14pt"> </p>
+
+    <script>
+
+    document.getElementById("code").innerText = Math.random().toString(36).substr(2, 5)
+    </script>
+-->

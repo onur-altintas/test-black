@@ -1,0 +1,58 @@
+{% extends "global/Base.html" %}
+{% load staticfiles otree_tags %}
+
+
+
+
+{% block title %}
+    <div style="text-align: center;"> Final Results </div>
+{% endblock %}
+
+{% block content %}
+
+        <div style="text-align: center; font-size: 13pt; margin-top: 60px">
+        <p> The simulation has ended. Thank you for your participation.</p>
+    </div>
+
+    {% if cum_profit < 0 %}
+        <div style="text-align: center; font-size: 13pt">
+            <div>You have <span style="color:darkred;font-weight:600">  lost  {{ abs_profit }} </span> (experimental dollars) during the simulation.</div><br>
+            <br>
+        </div>
+    {%  else %}
+        <div style="text-align: center;">
+            You have <span style="color:darkgreen;font-weight:600">  made {{ cum_profit }} </span> (experimental dollars) of profit during the simulation. </div><br>
+        <br>
+        </div>
+    {% endif %}
+
+<div class="text" style="text-align: center;font-size: 13pt">Your participation grade will be calculated later. </div>
+    <div class="text" style="text-align: center;font-size: 13pt"> If you would like to give feedback please click the "Feedback Link" below, otherwise you can close the page.</div>
+
+<div class="text mb-4" style="text-align: center;font-size: 13pt;margin-top:60px"><strong><ul>Your feedback is highly appreciated: (Your input will be anonymous)</ul></strong>
+    </div>
+ <div class="text" style="text-align: center">
+    <a href="https://forms.gle/PJosxvQMFCT5rwf96" class="external"; style="text-align: center;font-size: 14pt; font-weight: 700">Feedback Link</a>
+    </div>
+
+
+
+
+
+
+
+
+
+{% endblock %}
+<!--
+    <p class="text-center mt-5 ">
+            Please enter the following code to get your payment. It will be processed within a week.
+    </p>
+    <p class="text-center" style="font-weight: 600; font-size: 15pt"> Your code:</p>
+    <p class="text-center" id="code" style="font-size:14pt"> </p>
+
+    <script>
+
+    document.getElementById("code").innerText = Math.random().toString(36).substr(2, 5)
+    </script>
+-->

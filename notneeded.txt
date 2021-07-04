@@ -1,0 +1,103 @@
+Chat boxes
+<script>
+    window.addEventListener('chatwoot:ready', function () {
+            window.$chatwoot.setUser('{{ participant.code }}', {
+                // or can use participant.label if you want
+                name: '{{ participant.code }}',
+                // doesn't need to be a real email address
+                email: '{{ participant.code }}@example.com'
+            })
+        });
+
+
+    (function(d,t) {
+        var BASE_URL="https://expaichat.herokuapp.com";
+        var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+        g.src=BASE_URL+"/packs/js/sdk.js";
+        s.parentNode.insertBefore(g,s);
+        g.onload=function(){
+          window.chatwootSDK.run({
+            websiteToken: 'cKu4jKefbvbMNfAm5feQZM5d',
+            baseUrl: BASE_URL
+          })
+        }
+      })(document,"script");
+ </script>
+
+ -- TREATMENT INTRO ---
+<p>
+    <s>According to the vendor, the A.I. algorithm can map important and non-linear features and reduce them into
+        variables that can help to understand the past and to improve managerial decision-making.
+        However, it is up to you whether to follow BakerAI's recommendation or not.
+        You can keep using your best judgement to determine the order quantity for the next day or you can follow BakerAI's recommendation.</s>
+</p>
+
+
+----f1_Results_wo_AI ---
+
+    {% if player.leftover == 0 %}
+        <div class="text mt-5" style="text-align: center;">
+            You ordered <b>{{ player.orderquantity }}</b> loaves of bread with the total cost of ordering: <b>{{ player.cost | c }}</b> (={{ player.orderquantity }} x {{ Constants.cost |c }})<br>
+            At the end of today, you sold <b>{{ player.sales }}</b> loaves of bread and generated <b>{{ player.revenue | c }}</b> (={{ player.sales }} x {{ Constants.sale_price | c}}) worth of revenue from sales.<br>
+            <b>No</b>  loaves were thrown away (={{ player.orderquantity }} ordered -{{ player.sales }} sold).
+        </div>
+    {% else %}
+        <div class="text mt-5" style="text-align: center;">
+         You ordered <b>{{ player.orderquantity }}</b> loaves of bread with the total cost of ordering: <b>{{ player.cost | c }}</b> (={{ player.orderquantity }} x {{ Constants.cost |c }})<br>
+            At the end of today, you sold <b>{{ player.sales }}</b> loaves of bread and generated <b>{{ player.revenue | c }}</b> (={{ player.sales }} x {{ Constants.sale_price | c}}) worth of revenue from sales.<br>
+             <b>{{ player.leftover }}</b>  loaves were thrown away (={{ player.orderquantity }} ordered -{{ player.sales }} sold).
+         </div>
+    {% endif %}
+    <div class="container m-4" style="text-align: center;">
+    {%  if player.profit < 0 %}
+        Today's <b> loss </b> was <b> {{ abs_profit |c }}</b> (={{ player.revenue | c }}-{{ player.cost |c }})
+    {% else %}
+        Today's <b> profit </b> was <b> {{ player.profit | c }} </b> (={{ player.revenue | c }}-{{ player.cost |c }})
+    {% endif%}
+    </div>
+
+--- Demo Results ---
+<!--
+    {% if player.leftover == 0 %}
+        <div class="text mt-5" style="text-align: center;">
+            You ordered <b>{{ player.orderquantity }}</b> loaves of bread with the total cost of ordering: <b>{{ player.cost | c }}</b> (={{ player.orderquantity }} x {{ Constants.cost |c }})<br>
+            At the end of today, you sold <b>{{ player.sales }}</b> loaves of bread and generated <b>{{ player.revenue | c }}</b> (={{ player.sales }} x {{ Constants.sale_price | c}}) worth of revenue from sales.<br>
+            <b>No</b>  loaves were thrown away (={{ player.orderquantity }} ordered -{{ player.sales }} sold).
+        </div>
+    {% else %}
+        <div class="text mt-5" style="text-align: center;">
+         You ordered <b>{{ player.orderquantity }}</b> loaves of bread with the total cost of ordering: <b>{{ player.cost | c }}</b> (={{ player.orderquantity }} x {{ Constants.cost |c }})<br>
+            At the end of today, you sold <b>{{ player.sales }}</b> loaves of bread and generated <b>{{ player.revenue | c }}</b> (={{ player.sales }} x {{ Constants.sale_price | c}}) worth of revenue from sales.<br>
+             <b>{{ player.leftover }}</b>  loaves were thrown away (={{ player.orderquantity }} ordered -{{ player.sales }} sold).
+         </div>
+    {% endif %}
+    <div class="container m-4" style="text-align: center;">
+    {%  if player.profit < 0 %}
+        Today's <b> loss </b> was <b> {{ abs_profit |c }}</b> (={{ player.revenue | c }}-{{ player.cost |c }})
+    {% else %}
+        Today's <b> profit </b> was <b> {{ player.profit | c }} </b> (={{ player.revenue | c }}-{{ player.cost |c }})
+    {% endif%}
+    </div>
+    -->
+
+---- Historical Demand ---
+<!-- ## Historical demand Graph
+        <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-12 my-2 ml-3" style="text-align: center; background-color: white">
+            <img src="https://i.imgur.com/o2wznL5.png" width="100%"/>
+        </div>
+        -->
+
+----- Instruction for AI ------
+        <!--
+        <hr>
+            <p><div style="text-align: center;"><u><strong>Artificial Intelligence (A.I.) support:</strong></u></div>
+            A software company, called SmartBaker Co., is offering you a free trial of its new artificial intelligence software.
+            Every evening, the A.I. will recommend you how many breads you should order for the next day.
+            It is up to you whether to follow the A.I.'s recommendation or not.
+            You can either use your best judgement to determine the order quantity for the next day or you can follow the A.I.'s recommendation.
+
+        Their claim is that the AI can give you good suggestions on number of
+        breads to order every evening. You are considering to use this artificial intelligence software to help you with your order decision.
+
+            -->
+            <!-- I don't say it uses previous sales here, I keep it for treatment -->

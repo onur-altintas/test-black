@@ -1,0 +1,22 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+
+
+{% block content %}
+    <div class="container my">
+        <div class="row" >
+            <div class="col col-xs-6 align-self-center" >
+                <h3>Introduction</h3>
+            </div>
+            <div class="col col-xs-6 mb-1" style="align: right;">
+                <img src="https://bit.ly/3iLpvTD" alt="logo" width="30%" align="right"/>
+            </div>
+        </div>
+
+        {% include Constants.welcome_template %}
+
+        {% next_button %}
+    </div>
+
+{% endblock %}
