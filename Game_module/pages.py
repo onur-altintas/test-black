@@ -214,7 +214,6 @@ class f1_Results(Page):
         extra_time = (self.round_number % 5 == 0 and self.round_number > self.session.config['wo_ai_rounds']) * \
                      min(Constants.wait_every5 * (self.round_number / 5) + 10, 20) * \
                      (self.round_number != self.session.config['ai_fail_rounds'])
-        if self.round_number < self.session.config['wo_ai_rounds']
 
         return {
             'round': self.round_number,
@@ -231,7 +230,7 @@ class f1_Results(Page):
             'test': self.participant.vars['pre_profit'],
             'ai_profit': self.player.ai_profit,
             'is_performance': self.participant.vars['treatment'] == 'performance',
-            'ai_profit_cum': ,
+            'ai_profit_cum': self.player.ai_profit_cum,
             'is_ai_rounds': (self.session.config['simulation_rounds'] >= self.round_number > self.session.config[
                 'wo_ai_rounds'])
         }
