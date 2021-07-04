@@ -167,7 +167,7 @@
                         <td style="color:darkgreen">Amount<br>Sold</td>
                         <td style="color:darkred">Amount <br> Leftover</td>
                         <td>My <br> Profit</td>
-                        {% if round > wo_ai_rounds %}
+                        {% if round > wo_ai_rounds and is_performance %}
                             <td>BakerAI's <br>Profit</td>
                         {% endif %}
                     </tr>
@@ -188,7 +188,7 @@
                                 <td>{{ p.profit | c }}</td>
                             {% endif %}
 
-                            {% if round > wo_ai_rounds %}
+                            {% if round > wo_ai_rounds and is_performance %}
                                 {% if p.round_number > wo_ai_rounds and p.round_number <= simulation_rounds %}
                                     {% if p.profit < p.ai_profit_round %}
                                     <td style="color:darkgreen">{{ p.ai_profit_round | c}}</td>
