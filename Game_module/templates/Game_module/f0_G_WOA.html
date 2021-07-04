@@ -107,7 +107,11 @@
 
         <div style="text-align: center;padding-top: 20px;"><h3>My Performance History</h3></div>
         <div class="container mt-4" style="text-align: center; font-weight:bold; font-size: 14pt">
-            My Cumulative profit: {{ cum_profit |c }} </div><br>
+            My Cumulative profit: {{ cum_profit |c }}
+                {% if round > wo_ai_rounds and round <= simulation_rounds and is_performance %}
+        <br>
+        BakerAI's cumulative profit: {{ ai_profit_cum |c }}
+        {% endif %}</div><br>
 
         <div class="container">
              <div class="row justify-content-center">
