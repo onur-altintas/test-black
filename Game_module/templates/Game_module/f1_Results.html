@@ -182,7 +182,7 @@
                             <td>{{ p.sales }} loaves</td>
                             <td>{{ p.leftover }} loaves</td>
 
-                            {% if p.profit > p.ai_profit_round and p.round_number > wo_ai_rounds and p.round_number <= simulation_rounds %}
+                            {% if p.profit > p.ai_profit_round and p.round_number > wo_ai_rounds and p.round_number <= simulation_rounds and is_performance%}
                                 <td style="color:darkgreen">{{ p.profit | c }}</td>
                             {% else %}
                                 <td>{{ p.profit | c }}</td>
