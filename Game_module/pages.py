@@ -110,7 +110,7 @@ class f0_G_no_AI(Page):
             self.player.ai_recommend = self.player.sales
 
 
-class f0_G_WOA(Page):
+class f0_G_WOA2(Page):
     form_model = "player"
     form_fields = ["orderquantity2"]
 
@@ -393,7 +393,7 @@ class f1_z_A3(Page):
 
 
 page_sequence = [f1_z_A, f1_z_A2, f1_z_A3,
-                 f0_G_no_AI, f0_G_WOA, f1_Results, e1_T_intro,
+                 f0_G_no_AI, f0_G_WOA2, f1_Results, e1_T_intro,
                  e2_T, e3_T_test]
 
 # page_sequence = [f0_Game_wo_AI, f1_Results_wo_AI, e1_Treatment_intro, e2_Treatment, e3_Treatment_test, f0_Game,

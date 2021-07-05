@@ -129,6 +129,7 @@
     });
     </script>
 
+
     {% if is_round_5 and is_performance %}
           <div class="row justify-content-center">
               <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
@@ -154,8 +155,9 @@
 
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="table-responsive col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <table class="table table-bordered table-hover table-condensed" >
+                    <thead2>
                     <tr valign="bottom" align="center">
                         <td>Day </td>
 
@@ -168,9 +170,11 @@
                         <td style="color:darkred">Amount <br> Leftover</td>
                         <td>My <br> Profit</td>
                         {% if round > wo_ai_rounds and is_performance %}
-                            <td>BakerAI's <br>Profit</td>
+                            <th>BakerAI's <br>Profit</th>
                         {% endif %}
                     </tr>
+                    </thead2>
+                    <tbody2>
                     {% for p in player_in_all_rounds %}
                         <tr align="center">
                             <td>{{ p.round_number }}</td>
@@ -201,6 +205,7 @@
                             {% endif %}
                         </tr>
                     {% endfor %}
+                    </tbody2>
                 </table>
             </div>
         </div>
