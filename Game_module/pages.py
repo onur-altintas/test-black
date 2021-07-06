@@ -23,10 +23,10 @@ def ai_rec(sales, orderquantity, pre_ai, round_no, gamma, max_demand, price, cos
         second_term = rec1
     elif pre_ai > sales and orderquantity > sales:
         # print("both high")
-        second_term = min(orderquantity, pre_ai) - epsilon * decrease_h_t
+        second_term = pre_ai - epsilon * decrease_h_t
     elif sales == orderquantity and sales >= pre_ai:
         # print("sales=order>=ai")
-        second_term = orderquantity - epsilon * increase_h_t
+        second_term = pre_ai - epsilon * increase_h_t
     elif orderquantity > sales and sales == pre_ai:
         # print("sales=order>=ai")
         second_term = sales - epsilon * decrease_h_t
