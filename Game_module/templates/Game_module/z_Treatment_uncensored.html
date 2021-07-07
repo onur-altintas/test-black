@@ -11,10 +11,10 @@
             <hr>
             <p style="padding-top:0px ">
                 <span>
-                    BakerAI's algorithm does not have any information about your demand, thus it cannot precisely predict
+                    BakerAI's algorithm does not have enough information about your demand distribution, thus it cannot precisely predict
                     the demand for the next day. However, it chooses the best order quantity by factoring two important elements:</span>
                     <ol><span style="font-weight: 600" >
-                        <li>Exploring your demand distribution by either increasing or decreasing the last order quantity</li>
+                        <li>Exploring your demand distribution by either increasing or decreasing its previous recommended order quantity</li>
                         <li>Maximizing your profit by balancing the expected cost of ordering either too many,
                     or too few loaves of bread</li></span>
                     </ol>
@@ -30,9 +30,9 @@
 
         <div class="row justify-content-center">
             <div class="col-xs-6">
-                <p><strong>When BakerAI recommends less than actual demand:</strong><br>
-                Let's assume that in the evening of Day 6, BakerAI recommended 100 loaves to sell on Day 7.
-                    However, the actual demand on Day 7 was 200 loaves .
+                <p><strong>If you were sold-out:</strong><br>
+                Let's assume that in the evening of Day 6, you ordered 100 loaves to sell on Day 7. You sold all
+                    of 100 loaves of bread you ordered on Day 7.
 
                     <!--
                 <i>The reason is that there is a high chance that you could have sold more and have made more profit.</i>-->
@@ -43,6 +43,8 @@
                         <th scope="col" style="vertical-align:center">Day</th>
                         <th scope="col" style="vertical-align:center">BakerAI's <br> advice</th>
                         <th scope="col"> Actual <br> Demand</th>
+                        <th scope="col" style="color:darkgreen">Amount <br> sold</th>
+                        <th scope="col" style="color:darkred">Amount <br> leftover</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -50,18 +52,20 @@
                         <td>7</td>
                         <td>100 loaves</td>
                         <td> 200 loaves </td>
+                        <td>100 loaves</td>
+                        <td> 0 loaves</td>
                     </tr>
                     </tbody>
                 </table>
-                In this case, BakerAI will increase its recommendation for the next day (for Day 8).
+                Because you were sold out, the A.I. will suggest you to order more for the next day (for Day 8).
             </div>
         </div>
         <div class="row justify-content-center pt-4">
             <div class="col-xs-6"  >
-                <p> <strong>When BakerAI recommends more than actual demand:</strong><br>
-                    For Day 7, BakerAI recommended 100 loaves to order and the actual demand was 200 loaves.<br>
-                    Now for Day 8, BakerAI adjust its recommendation based on the actual demand and recommends 130 loaves (instead of 100 loaves).
-
+                <p> <strong>If you had some leftovers:</strong><br>
+                    On Day 7, you ordered 100 loaves and you were sold-out.
+                    In the evening of Day 7, BakerAI recommended you to order 150 loaves (instead of 100 loaves) for Day 8.
+                    On Day 8, you didn't have that much demand for the bread and you could only sell 40 loaves.
 
                     <!--<i>in order to decrease the number of loaves wasted.</i></p>-->
 
@@ -71,18 +75,21 @@
                         <th scope="col" style="vertical-align:center">Day</th>
                         <th scope="col" style="vertical-align:center">BakerAI's <br> advice</th>
                         <th scope="col"> Actual <br> Demand</th>
+                        <th scope="col" style="color:darkgreen">Amount <br> sold</th>
+                        <th scope="col" style="color:darkred">Amount <br> leftover</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr align="center">
-                        <td>8</td>
+                        <td>7</td>
                         <td>130 loaves</td>
-                        <td> 40 loaves </td>
+                        <td>40 loaves </td>
+                        <td>40 loaves</td>
+                        <td> 90 loaves</td>
                     </tr>
                     </tbody>
                 </table>
-                On Day 8, you didn't have that much demand for the bread.
-                Because BakerAI recommended more than the actual demand, it will recommend you to order less than 130 loaves for Day 9.
+                Because you had some leftovers, BakerAI will recommend you to order less than 150 loaves for Day 9.
                 <div style="margin-top: 20px"> The exact order quantity amount will be determined by BakerAI software.
 
                 </div>

@@ -11,19 +11,19 @@
     <div class="card bg-light pt-3 px-3 m-5">
     {% if participant.vars.hidden_ai == False %}
         <p>
-            A software company, called SmartBaker Co., is offering you a free trial of its new artificial intelligence software, BakerAI.
-            Every evening, the A.I. will recommend you how many breads you should order for the next day.</p>
+            A software company, called SmartBaker Co., is offering you a free trial of its new software, BakerAI.
+            Every evening, BakerAI will recommend you how many breads you should order for the next day.</p>
 
         {% if participant.vars.treatment == 'performance' %}
             <p>
-                SmartBaker presented to you the results of extensive testing done on this A.I. software.
-                The vendor's analysis shows that users who followed the A.I.'s recommendations <strong>every day</strong>
-                were able to capture approximately <strong>80% </strong> of the theoretical maximum profit. <br>
+                SmartBaker presented to you the results of extensive testing done on this BakerAI software.
+                The vendor's analysis shows that users who followed BakerAI's recommendations <strong>every day</strong>
+                were able to capture approximately <strong>80% </strong> of the theoretical optimal profit. <br>
             </p>
         {% endif %}
         <p>
             <strong> For the next {{ trial_period }} days</strong>, the recommendation from BakerAI will be available to you after you make your order quantity decision.
-            You will be able to change your order quantity after BakerAI makes its recommendation.
+            You will be able to choose either your order quantity or BakerAI's recommendation.
         </p>
         <p>
             Please make your decision attentively. Every decision you make has a tremendous effect on your cumulative profit.
@@ -31,20 +31,20 @@
 
     {% else %}
         <p>
-            A software company, called SmartBaker Co., is offering you a free trial of its new artificial intelligence software, BakerAI.
+            A software company, called SmartBaker Co., is offering you a free trial of its new software, BakerAI.
             Every evening, BakerAI will analyze the previous sales to decide how many loaves to order for the next day.</p>
 
         <p>
             BakerAI has trained on 100 historical data points which were shared with you in the first round
             and its accuracy will improve as it collects more data points.
-            The analysis showed that the historical data has no trend that can be utilized by the A.I.
-            Therefore, the A.I. will <strong>not </strong> try to predict the next day's demand
+            The analysis showed that the historical data has no trend that can be utilized by BakerAI.
+            Therefore, BakerAI will <strong>not </strong> try to predict the next day's demand
             but it will try to find the order quantity level that maximizes the long-term profit.
         </p>
 
         <p>
                 From now on, you will have the option to assign the order quantity decision to BakerAI.
-                You can keep using your best judgement to determine the order quantity for the next day or you can let the A.I. decide for you.</p>
+                You can keep using your best judgement to determine the order quantity for the next day or you can let BakerAI decide for you.</p>
 
         <p>
                 Please make your decision attentively. Every decision you make has a tremendous effect on your cumulative profit.

@@ -32,6 +32,7 @@ class Constants(BaseConstants):
     instructions_template_a2 = 'Game_module/z_instructions_after_2.html'
     treatment_hidden = 'Game_module/z_Treatment_hidden.html'
     treatment_visible = 'Game_module/z_Treatment_visible.html'
+    treatment_uncensored = 'Game_module/z_Treatment_visible.html'
     sale_price = 4
     cost = 3
     gamma = 0.25
@@ -98,12 +99,12 @@ class Player(BasePlayer):
     keep_q = models.PositiveIntegerField(default=0, min=0, max=300)
     # ai_click = models.PositiveIntegerField(default=0)
 
-    treatment_test1 = models.BooleanField(label="- For the next day, the A.I. would order ...",
+    treatment_test1 = models.BooleanField(label="- For the next day, BakerAI would recommend ...",
                                           choices=[
                                               [False, 'More than 80 loaves'],
                                               [True, 'Less than 80 loaves']
                                           ], widget=widgets.RadioSelect)
-    treatment_test2 = models.BooleanField(label="- For the next day, the A.I. would order ...",
+    treatment_test2 = models.BooleanField(label="- For the next day, BakerAI would recommend ...",
                                           choices=[
                                               [True, 'More than 220 loaves'],
                                               [False, 'Less than 220 loaves']

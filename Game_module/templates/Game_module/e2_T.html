@@ -6,11 +6,8 @@
 {% block content %}
     <h4> Explaining how BakerAI works</h4>
 
-    {% if participant.vars.hidden_ai == True %}
-        {% include Constants.treatment_hidden %}
-    {% else %}
-        {% include Constants.treatment_visible %}
-    {% endif %}
+     {% include Constants.treatment_uncensored %}
+
 
     <div class="container mt-2" style="text-align:center"> On the next page, your understanding of how BakerAI software works will be tested. </div>
     <div class="container -xs-6 mt-3" style="text-align: center; padding-top: 15px;">
@@ -44,3 +41,10 @@
 
 {% endblock %}
 
+    <!--
+    {% if participant.vars.hidden_ai == True %}
+        {% include Constants.treatment_hidden %}
+    {% else %}
+        {% include Constants.treatment_visible %}
+    {% endif %}
+    -->
