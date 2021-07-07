@@ -10,7 +10,7 @@
 <div class="card bg-light">
     <div class="container" style="text-align:center">
         {% if  simulation_rounds >= round and round >= wo_ai_rounds1%}
-            <center><div class="row justify-content-center" style="padding-top: 30px; width:465px">
+            <center><div class="row justify-content-center" style="padding-top: 30px; width:475px">
                 <div class="col">
                     <input type="button" class="btn btn-outline-primary" data-toggle="collapse" data-target="#myCollapsible" value="Instructions">
                 </div>
@@ -19,13 +19,13 @@
                 </div>
 
                 <div class="col">
-                    <input type="button" class="btn btn-outline-primary" data-toggle="collapse" data-target="#myCollapsible3" value="A.I. Support">
+                    <input type="button" class="btn btn-outline-primary" data-toggle="collapse" data-target="#myCollapsible3" value="BakerAI Support">
                 </div>
             </div></center>
             {% if treatment == 'partial' or treatment == 'full'%}
                 <center><div class="row justify-content-center" style="padding-top: 30px; width:465px">
                     <div class="col">
-                        <input type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#myModalAI" value="A.I. Explanation">
+                        <input type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#myModalAI" value="BakerAI Explanation">
                     </div>
                 </div></center>
             {% endif %}
@@ -99,27 +99,27 @@
             {% endif %}
 
                 <hr>
-                <h5 style="text-align:center; padding-bottom: 0px">Artificial Intelligence (A.I.) support:</h5>
+                <h5 style="text-align:center; padding-bottom: 0px"> BakerAI support:</h5>
                 <p style="padding: 0px">
                     {% if participant.vars.hidden_ai == False %}
                         A software company, called SmartBaker Co., is offering you a free trial
-                        of its new artificial intelligence software <span style="color: darkred; font-weight: 600"> for the next {{ ai_left }} days. </span>
-                        Every evening, the A.I. will recommend you how many breads you should order for the next day.
+                        of its new software <span style="color: darkred; font-weight: 600"> for the next {{ ai_left }} days. </span>
+                        Every evening, BakerAI will recommend you how many breads you should order for the next day.
                         {% if participant.vars.treatment == 'performance' %}
-                        The vendor's testing results show that users who followed the A.I.'s recommendations <strong>every day</strong>
-                        were able to capture approximately <strong>80% </strong> of the theoretical maximum profit. <br>
+                        The vendor's testing results show that users who followed BakerAI's recommendations <strong>every day</strong>
+                        were able to capture approximately <strong>80% </strong> of the theoretical optimal profit. <br>
                         {% endif %}
-                        It is up to you whether to follow the A.I.'s recommendation or not.
+                        It is up to you whether to follow BakerAI's recommendation or not.
                         You can keep using your best judgement to determine the order quantity for the next day
-                        or you can follow the A.I.'s recommendation.
+                        or you can follow BakerAI's recommendation.
                     {% else %}
                         A software company, called SmartBaker Co., is offering you a free trial of
-                        its new artificial intelligence software.
-                        Every evening, the A.I. will analyze the history of sales and
+                        its new software.
+                        Every evening, BakerAI will analyze the history of sales and
                         order quantity to decide how many loaves to order for the next day.
-                        it is up to you whether to follow the A.I.'s recommendation or not.
+                        it is up to you whether to follow BakerAI's recommendation or not.
                         <s> You can keep using your best judgement to determine the order quantity for the next day or
-                            you can follow the A.I.'s recommendation.</s>
+                            you can follow BakerAI's recommendation.</s>
                     {% endif %}
                 </p>
             </div>

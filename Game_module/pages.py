@@ -17,7 +17,7 @@ def ai_rec(sales, orderquantity, pre_ai, round_no, gamma, max_demand, price, cos
     increase_h_t = -(price - cost)
     if sales == orderquantity and sales < pre_ai:
         # print("ai high,order=sales")
-        rec1 = orderquantity - epsilon * increase_h_t
+        rec1 = pre_ai - epsilon * increase_h_t
         rec2 = pre_ai - epsilon * decrease_h_t
         # second_term = rec1 + max(rec2 / 2 - rec1 / 2, 0)
         second_term = rec1
@@ -66,14 +66,16 @@ class f0_G_no_AI(Page):
         players = self.player.in_previous_rounds()
         profits = [p.profit for p in players]
         cum_profit = sum(profits)
+        ai_rounds_list = [p.ai_profit_round for p in players]
+        ai_profit_list = [p.ai_profit for p in players]
+        ai_profitcum_list = [p.ai_profit_cum for p in players]
 
         self.player.ai_text = "N/A"
 
         if self.round_number == 1:
-            ai_profit_cum  = 0
+            ai_profit_cum = 0
         else:
             ai_profit_cum = players[self.round_number - 2].ai_profit_cum
-
 
         return {
             'hist_dem': self.session.vars['historydemand'],
@@ -91,7 +93,9 @@ class f0_G_no_AI(Page):
             'rounds_left': self.session.config['ai_fail_rounds'] - self.round_number + 1,
             'ai_left': self.session.config['simulation_rounds'] - self.round_number + 1,
             'is_performance': self.participant.vars['treatment'] == 'performance',
-            'ai_profit_cum': ai_profit_cum
+            'ai_profit_cum': ai_profit_cum,
+            'ai_rounds_list': ai_rounds_list,
+            'ai_profitcum_list': ai_profitcum_list,
 
         }
 
@@ -109,8 +113,13 @@ class f0_G_no_AI(Page):
             self.player.payoff = self.player.profit
             self.player.ai_recommend = self.player.sales
 
+        if self.round_number > self.session.config['simulation_rounds']:
+            self.player.ai_profit_cum = self.player.in_round(self.player.round_number - 1).ai_profit_cum + \
+                                        profit(self.player.demand, self.player.orderquantity2, Constants.sale_price,
+                                               Constants.cost)
 
-class f0_G_WOA2(Page):
+
+class f0_G_AA(Page):
     form_model = "player"
     form_fields = ["orderquantity2"]
 
@@ -130,7 +139,7 @@ class f0_G_WOA2(Page):
         cum_profit = sum(profits)
 
         if self.round_number == self.session.config['wo_ai_rounds'] + 1:
-            ai_recommendation = 70
+            ai_recommendation = 96
         else:
             p_sales = players[self.round_number - 2].sales
             p_order = players[self.round_number - 2].orderquantity2
@@ -162,7 +171,7 @@ class f0_G_WOA2(Page):
             'ai_left': self.session.config['simulation_rounds'] - self.round_number + 1,
             'oq_now': oq_now,
             'is_performance': self.participant.vars['treatment'] == 'performance',
-            'ai_profit_cum': players[self.round_number - 2].ai_profit_cum
+            'ai_profit_cum': players[self.round_number - 2].ai_profit_cum,
         }
 
     def before_next_page(self):
@@ -177,25 +186,23 @@ class f0_G_WOA2(Page):
 
         if self.round_number == self.session.config['wo_ai_rounds'] + 1:
             self.participant.vars['pre_profit'] = sum([p.profit for p in self.player.in_previous_rounds()])
-            self.player.ai_profit = self.participant.vars['pre_profit'] + \
-                                    profit(self.player.demand,
-                                           self.session.vars['ai_counterfact_rec'][self.round_number - 6],
-                                           Constants.sale_price, Constants.cost)
+            #self.player.ai_profit = self.participant.vars['pre_profit'] + \
+            #                        profit(self.player.demand,
+            #                               self.session.vars['ai_counterfact_rec'][self.round_number - 6],
+            #                               Constants.sale_price, Constants.cost)
             self.player.ai_profit_round = profit(self.player.demand, self.player.ai_recommend, Constants.sale_price,
                                                  Constants.cost)
             self.player.ai_profit_cum = self.participant.vars['pre_profit'] + \
-                                        profit(self.player.demand, self.player.ai_recommend, Constants.sale_price,
-                                               Constants.cost)
-        else:
-            self.player.ai_profit = self.player.in_round(self.player.round_number - 1).ai_profit + \
-                                    profit(self.player.demand,
-                                           self.session.vars['ai_counterfact_rec'][self.round_number - 6],
-                                           Constants.sale_price, Constants.cost)
+                                        self.player.ai_profit_round
+        elif self.round_number <= self.session.config['simulation_rounds']:
+            #self.player.ai_profit = self.player.in_round(self.player.round_number - 1).ai_profit + \
+            #                        profit(self.player.demand,
+            #                               self.session.vars['ai_counterfact_rec'][self.round_number - 6],
+            #                               Constants.sale_price, Constants.cost)
             self.player.ai_profit_round = profit(self.player.demand, self.player.ai_recommend, Constants.sale_price,
                                                  Constants.cost)
-            self.player.ai_profit_cum = self.player.in_round(self.player.round_number - 1).ai_profit + \
-                                        profit(self.player.demand, self.player.ai_recommend, Constants.sale_price,
-                                               Constants.cost)
+            self.player.ai_profit_cum = self.player.in_round(self.player.round_number - 1).ai_profit_cum + \
+                                        self.player.ai_profit_round
 
 
 class f1_Results(Page):
@@ -393,7 +400,7 @@ class f1_z_A3(Page):
 
 
 page_sequence = [f1_z_A, f1_z_A2, f1_z_A3,
-                 f0_G_no_AI, f0_G_WOA2, f1_Results, e1_T_intro,
+                 f0_G_no_AI, f0_G_AA, f1_Results, e1_T_intro,
                  e2_T, e3_T_test]
 
 # page_sequence = [f0_Game_wo_AI, f1_Results_wo_AI, e1_Treatment_intro, e2_Treatment, e3_Treatment_test, f0_Game,
