@@ -12,7 +12,7 @@ def profit(demand, orderquantity, sale, cost):
 
 def ai_rec(sales, orderquantity, pre_ai, round_no, gamma, max_demand, price, cost):
     #    epsilon = (gamma * max_demand) / (max(cost, price - cost) * (round_no + 1) ** (1 / 2))
-    epsilon = max_demand / (max(price, cost) * (round_no + 5))
+    epsilon = max_demand / (max(price, cost) * (round_no + 0))
     decrease_h_t = cost
     increase_h_t = -(price - cost)
     if sales == orderquantity and sales < pre_ai:
