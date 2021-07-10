@@ -32,12 +32,12 @@
 
 
         <p style="padding-top: 10px">
-            Amount sold is determined by how many loaves of bread you ordered and the demand for that day.<br>
-            If the demand is less than the amount ordered, you will pay for bread that you need to throw away.<br>
-            For every loaf of bread you throw away, you will lose <strong> {{Constants.cost | c}} </strong> (Unit purchase cost). <br>
+            The amount sold is determined by the number of loaves you ordered and the demand for that day.<br>
+            If the demand is less than the amount ordered, you will throw away the unsold bread you already paid for.<br>
+            Every loaf of bread you throw away costs you <strong> {{Constants.cost | c}} </strong> (Unit purchase cost). <br>
             <br>
             If the demand is more than the amount ordered, you will miss the opportunity to sell more and make more profit.<br>
-            Opportunity cost of not selling a single loaf of bread is
+            For every additional loaf you could have ordered, you would have made additional
             <strong> {{Constants.sale_price |c }} - {{Constants.cost |c }} = 1 E$ </strong> (=Unit selling price - Unit purchase cost)
 
         </p>
