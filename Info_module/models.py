@@ -29,7 +29,7 @@ class Constants(BaseConstants):
     cost = 3
     sale_price = 4
     base_pay = 3
-    wait_game = 00
+    wait_game = 30
 
 
 class Subsession(BaseSubsession):
