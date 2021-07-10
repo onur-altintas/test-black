@@ -112,6 +112,7 @@ class f0_G_no_AI(Page):
             self.player.leftover = self.player.orderquantity2 - self.player.sales
             self.player.payoff = self.player.profit
             self.player.ai_recommend = self.player.sales
+            self.player.demand_quantity_dif = - self.player.demand + self.player.orderquantity2
 
         if self.round_number > self.session.config['simulation_rounds']:
             self.player.ai_profit_cum = self.player.in_round(self.player.round_number - 1).ai_profit_cum + \
@@ -183,6 +184,7 @@ class f0_G_AA(Page):
         self.player.cost = self.player.orderquantity2 * Constants.cost
         self.player.leftover = self.player.orderquantity2 - self.player.sales
         self.player.payoff = self.player.profit
+        self.player.demand_quantity_dif = -self.player.demand + self.player.orderquantity2
 
         if self.round_number == self.session.config['wo_ai_rounds'] + 1:
             self.participant.vars['pre_profit'] = sum([p.profit for p in self.player.in_previous_rounds()])

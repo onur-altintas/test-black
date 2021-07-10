@@ -74,6 +74,7 @@ class e_Demo_Game_w(Page):
         self.player.leftover = self.player.orderquantity - self.player.sales
         self.player.revenue = self.player.sales * Constants.sale_price
         self.player.cost = self.player.orderquantity * Constants.cost
+        self.player.demand_quantity_dif = self.player.orderquantity - self.player.demand
 
 
 class e1_Demo_Results_w(Page):

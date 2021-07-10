@@ -187,6 +187,7 @@
                                 {% endif %}
                                 <td>Actual<br>Demand</td>
                                 <td style="font-weight: 500; ">Amount<br>Ordered</td>
+                                <td>Actual Demand and <br> Order Mismatch </td>
                                 <td style="color:darkgreen">Amount<br>Sold</td>
                                 <td style="color:darkred">Amount <br> Leftover</td>
                                 <td><br>Profit</td>
@@ -204,9 +205,18 @@
                             {% endif %}
                             <td>{{ p.demand }} loaves </td>
                             <td style="font-weight: 500">{{ p.orderquantity2 }} loaves</td>
+                            <td> {{p.demand_quantity_dif}} loaves</td>
                             <td>{{ p.sales }} loaves</td>
                             <td>{{ p.leftover }} loaves</td>
-                            <td>{{ p.profit | c }}</td>
+                            {% if p.profit > 0 %}
+                            <td style="color:darkgreen">{{ p.profit | c }}</td>
+                            {% else %}
+                            {% if p.profit < 0 %}
+                            <td style="color:darkred">{{ p.profit | c }}</td>
+                            {% else %}
+                             <td>{{ p.profit | c }}</td>
+                            {% endif %}
+                            {% endif %}
                             <!--
                             {% if p.profit > p.ai_profit_round and is_performance %}
                                 {% if p.round_number > wo_ai_rounds %}

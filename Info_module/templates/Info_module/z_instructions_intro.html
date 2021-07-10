@@ -14,40 +14,34 @@
             Your objective is to <strong> maximize your cumulative profit</strong>
             for the <strong>next {{ total_rounds }} days.</strong>
         </p>
+        <hr>
+          <h5 style="text-align:center">Business Parameters:</h5>
+        <div style="font-size:13pt; text-align: center">Unit selling price (The amount your customers pay you per loaf): &nbsp; <b>{{ Constants.sale_price | c }} </b>
+        </div>
+
+        <div style="font-size:13pt; text-align:center">&nbsp;Unit purchase cost (The amount you pay your supplier per loaf): &nbsp; <b> {{ Constants.cost | c  }}  </b>
+        </div>
 
             <hr>
             <h5 style="text-align:center; padding-bottom: 0px">Profit Analysis:</h5>
              <p style="padding-top: 0px; text-align:left">
-                 On any given day, the demand for the bread might be less or more than the amount you ordered: </p>
+                <strong> You can calculate your profit using the formula below:</strong> </p>
 
-            <p><b>If you were sold-out:</b> &emsp;<br>
-                In this case, you sold everything you ordered. There might be some customers who came to the store,
-                saw that you were sold-out and left the bakery.
-                <!--If you ordered more breads, you might have sold more.-->
-                <div> <u>The formula for the profit for the sold-out case:</u> &ensp; </div>
-                <div class="text-center" style="font-size:12pt">(Unit selling price - Unit purchase cost) x (Number of breads sold)</div>
-            </p>
-                <p><b>If you had some leftovers:</b> &emsp; <br>
-                In this case, the demand for the bread was less than the amount you ordered in the last evening.
-                You served all of your customers came to the store.
-                However, at the end of the day, you had to throw all the unsold breads away.
-
-            <div><u>  The formula for the profit in the leftover case:</u></div>
-
-            <div class="text-center" style="font-size:12pt"> (Unit selling price - Unit purchase cost) x (Number of breads sold)
-                - (Unit purchase cost x Number of breads leftover)</div>
+                <div style="font-size:12pt; text-align:center">(Unit selling price (={{Constants.sale_price| c}}) x Amount sold) - (Unit purchase cost (={{Constants.cost | c}}) x Amount ordered)</div>
             </p>
 
 
-        <!--
-        <hr>
-        <div style="text-align: center"><u><strong><s>Additional demand information for the first round:</s></strong></u></div>
+        <p style="padding-top: 10px">
+            Amount sold is determined by how many loaves of bread you ordered and the demand for that day.<br>
+            If the demand is less than the amount ordered, you will pay for bread that you need to throw away.<br>
+            For every loaf of bread you throw away, you will lose <strong> {{Constants.cost | c}} </strong> (Unit purchase cost). <br>
+            <br>
+            If the demand is more than the amount ordered, you will miss the opportunity to sell more and make more profit.<br>
+            Opportunity cost of not selling a single loaf of bread is
+            <strong> {{Constants.sale_price |c }} - {{Constants.cost |c }} = 1 E$ </strong> (=Unit selling price - Unit purchase cost)
 
-                           <s> You can find the historical demand information in the graph
-                               below to guide you when you make your first order decision.
-                        </s><u></u>
--->
-                    </p>
+        </p>
+
 </div>
 </div>
 </div>

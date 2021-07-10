@@ -106,18 +106,19 @@
 
 
     {% else %}
-        <div style="text-align: center;padding-top: 20px;"><h3>My Demo Performance History</h3></div>
-        <div class="container mt-4" style="text-align: center; font-weight:bold; font-size: 14pt">My Demo Cumulative profit: {{ cum_profit |c }} </div><br>
+        <div style="text-align: center;padding-top: 20px;"><h3>Your Demo Performance History</h3></div>
+        <div class="container mt-4" style="text-align: center; font-weight:bold; font-size: 14pt">Your Demo Cumulative profit: {{ cum_profit |c }} </div><br>
 
         <div class="container">
              <div class="row justify-content-center">
-                <div class="col-xs-12 col-sm-12 col-md-10 col-lg-8">
+                <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
                     <table class="table table-bordered table-hover table-condensed">
                         <tr valign="bottom" align="center">
                          <td>Demo <br>Day </td>
-                            <td>Realized<br>Demand</td>
+                            <td>Actual<br>Demand</td>
                             <td>Amount<br>Ordered</td>
-                            <td style="color:darkgreen">Amount<br>Sales</td>
+                            <td>Actual Demand and <br> Order Mismatch </td>
+                            <td style="color:darkgreen">Amount<br>Sold</td>
                             <td style="color:darkred">Amount<br> Leftover</td>
                             <td>Demo <br>Profit</td>
                         </tr>
@@ -126,9 +127,18 @@
                                 <td>{{ p.round_number }}</td>
                                 <td>{{ p.demand }} loaves </td>
                                 <td>{{ p.orderquantity }} loaves</td>
+                                <td>{{p.demand_quantity_dif}} loaves</td>
                                 <td>{{ p.sales }} loaves</td>
                                 <td>{{ p.leftover }} loaves</td>
-                                <td>{{ p.profit | c }}</td>
+                            {% if p.profit > 0 %}
+                            <td style="color:darkgreen">{{ p.profit | c }}</td>
+                            {% else %}
+                            {% if p.profit < 0 %}
+                            <td style="color:darkred">{{ p.profit | c }}</td>
+                            {% else %}
+                             <td>{{ p.profit | c }}</td>
+                            {% endif %}
+                            {% endif %}
                             </tr>
                         {% endfor %}
                     </table>

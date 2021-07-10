@@ -31,18 +31,17 @@ class Constants(BaseConstants):
     # timer_text = 'Time to complete the simulation (min:sec):'
     instructions_template_a2 = 'Game_module/z_instructions_after_2.html'
     treatment_hidden = 'Game_module/z_Treatment_hidden.html'
-    treatment_visible = 'Game_module/z_Treatment_visible.html'
-    treatment_uncensored = 'Game_module/z_Treatment_visible.html'
+    treatment_uncensored = 'Game_module/z_Treatment_uncensored.html'
     sale_price = 4
     cost = 3
     gamma = 0.25
     max_demand = 300
     base_pay = 3
-    wait_e1 = 0
-    wait_e2 = 0
+    wait_e1 = 20
+    wait_e2 = 60
     wait_game = 0
     wait_game_result = 0
-    wait_every5 = 0
+    wait_every5 = 10
 
 
 class Subsession(BaseSubsession):
@@ -93,6 +92,7 @@ class Player(BasePlayer):
     answer_true = models.BooleanField(initial=False)
     profit_true = models.BooleanField(initial=False)
     correct_answers = models.IntegerField(initial=0)
+    demand_quantity_dif = models.IntegerField()
 
     hidden_ai = models.BooleanField()
     # submit_ai = models.PositiveIntegerField(default=0, min=0, max=1)

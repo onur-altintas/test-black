@@ -81,6 +81,7 @@ class Player(BasePlayer):
     cost = models.PositiveIntegerField()
     leftover = models.PositiveIntegerField()
     profit = models.IntegerField()
+    demand_quantity_dif = models.IntegerField()
 
     def orderquantity_error_message(self, value):
         if value == int():

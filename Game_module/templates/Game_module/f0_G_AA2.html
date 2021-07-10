@@ -20,10 +20,6 @@
 
 
     <div class="container mt-1">
-        <div class="row justify-content-center" style="padding-bottom:10px">
-            <div class="text-center" style="margin-top:30px" > You can either keep your decided order quantity (on the left) or you can choose BakerAI's advice (on the right): </div>
-
-        </div>
         <div class="row justify-content-center mt-3" style="padding-bottom:30px">
             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                 <div class="text-left" style="margin-left:10px" id="iwlto"> You decided to order:</div>
@@ -34,11 +30,11 @@
                     <button class="otree-btn-next btn btn-primary"  autofocus="true" onclick="enter_q2_q1()">Order</button>
                 </div>
             </div>
-            <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
-                <div class="text-center" style="margin-top:30px ; font-weight: bold; font-size: 14pt" > OR </div>
-            </div>
+        </div>
+
+        <div class="row justify-content-center mt-3" style="padding-bottom:30px">
             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                <div class="text-left" style="margin-left:10px" > BakerAI's advice:</div>
+                <div class="text-left" style="margin-left:10px" id=""> BakerAI's recommendation:</div>
                 <div class="input-group-append">
                   <input type="integer" class="form-control" placeholder="{{ ai_recommendation }} loaves"
                          aria-label="order_label" id="ai_orderquantity" disabled>
@@ -47,8 +43,6 @@
                 </div>
             </div>
         </div>
-
-
 
 <!--
 
@@ -159,15 +153,12 @@
                                 {% endif %}
                                 <td>Actual<br>Demand</td>
                                 <td style="font-weight: 500; ">Amount<br>Ordered</td>
-                                <td>Actual Demand and <br> Order Mismatch </td>
                                 <td style="color:darkgreen">Amount<br>Sold</td>
                                 <td style="color:darkred">Amount <br> Leftover</td>
-                                <td><br>Profit</td>
-                                <!--
-                                {% if round > wo_ai_rounds and is_performance %}
+                                <td>Your<br>Profit</td>
+                                {% if round > wo_ai_rounds and is_performance%}
                                 <td>BakerAI's <br>Profit</td>
                                 {% endif %}
-                                -->
                             </tr>
                             {% for p in player_in_prev_rounds %}
                         <tr align="center">
@@ -177,18 +168,9 @@
                             {% endif %}
                             <td>{{ p.demand }} loaves </td>
                             <td style="font-weight: 500">{{ p.orderquantity2 }} loaves</td>
-                            <td>{{p.demand_quantity_dif}} loaves </td>
                             <td>{{ p.sales }} loaves</td>
                             <td>{{ p.leftover }} loaves</td>
-                            {% if p.profit > 0 %}
-                            <td style="color:darkgreen">{{ p.profit | c }}</td>
-                            {% else %}
-                            {% if p.profit < 0 %}
-                            <td style="color:darkred">{{ p.profit | c }}</td>
-                            {% else %}
-                             <td>{{ p.profit | c }}</td>
-                            {% endif %}
-                            {% endif %}
+                            <td>{{ p.profit | c }}</td>
                             <!--
                             {% if p.profit > p.ai_profit_round and is_performance %}
                                 {% if p.round_number > wo_ai_rounds %}
