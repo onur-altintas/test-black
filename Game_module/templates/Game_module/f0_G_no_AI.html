@@ -167,7 +167,7 @@
 
           <div class="row justify-content-center">
               <div class="col-xs-12 col-sm-12 col-md-9 col-lg-6"; style="margin-bottom: 25px">
-                {% if is_performance and round > wo_ai_rounds1 %}
+                {% if is_performance and round > wo_ai_rounds1 and round <= simulation_rounds %}
                   <div class="text-center" style="padding-bottom:0px; font-size: 14pt;font-weight: 500; border:2px solid;
                   border-color:#5cb85c">
                       If you have followed BakerAI's recommendation every day,<br> your cumulative profit would have been: <strong>{{ ai_profit_cum |c }} </strong></div>
@@ -177,12 +177,12 @@
 
             <div class="container">
                  <div class="row justify-content-center">
-                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-10">
                         <table class="table table-bordered table-hover table-condensed">
                             <tr valign="bottom" align="center">
                              <td><br>Day </td>
 
-                                {% if round > wo_ai_rounds %}
+                                {% if round > wo_ai_rounds1 %}
                                 <td style="color:gray; border-right: 0px solid">BakerAI's<br>Advice</td>
                                 {% endif %}
                                 <td>Actual<br>Demand</td>
@@ -190,7 +190,7 @@
                                 <td>Actual Demand and <br> Order Mismatch </td>
                                 <td style="color:darkgreen">Amount<br>Sold</td>
                                 <td style="color:darkred">Amount <br> Leftover</td>
-                                <td><br>Profit</td>
+                                <td>Your<br>Profit</td>
                                 <!--
                                 {% if round > wo_ai_rounds and is_performance %}
                                 <td>BakerAI's <br>Profit</td>
@@ -200,7 +200,7 @@
                             {% for p in player_in_prev_rounds %}
                         <tr align="center">
                             <td>{{ p.round_number }}</td>
-                            {% if round > wo_ai_rounds %}
+                            {% if round > wo_ai_rounds1 %}
                             <td style="color:gray;border-right: 0px solid">{{ p.ai_text }}</td>
                             {% endif %}
                             <td>{{ p.demand }} loaves </td>
