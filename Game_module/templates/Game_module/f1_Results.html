@@ -159,7 +159,7 @@
                     <tr valign="bottom" align="center">
                         <td>Day </td>
 
-                        {% if round > wo_ai_rounds %}
+                        {% if round > wo_ai_rounds and not_baseline%}
                             <td style="color:gray; border-right: 0px solid">BakerAI's<br>Advice</td>
                         {% endif %}
                         <td>Actual<br>Demand</td>
@@ -179,7 +179,7 @@
                     {% for p in player_in_all_rounds %}
                         <tr align="center">
                             <td>{{ p.round_number }}</td>
-                            {% if round > wo_ai_rounds %}
+                            {% if round > wo_ai_rounds and not_baseline %}
                             <td style="color:gray;border-right: 0px solid">{{ p.ai_text }}</td>
                             {% endif %}
                             <td>{{ p.demand }} loaves </td>

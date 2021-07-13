@@ -96,12 +96,13 @@ class f0_G_no_AI(Page):
             'ai_profit_cum': ai_profit_cum,
             'ai_rounds_list': ai_rounds_list,
             'ai_profitcum_list': ai_profitcum_list,
+            'not_baseline': self.participant.vars['treatment'] != 'baseline',
 
         }
 
     def before_next_page(self):
         if self.round_number <= self.session.config['wo_ai_rounds'] or self.round_number > self.session.config[
-            'simulation_rounds']:
+            'simulation_rounds'] or self.participant.vars['treatment'] == 'baseline':
             self.player.orderquantity2 = self.player.orderquantity
             self.player.demand = self.session.vars['demand'][self.round_number - 1]
             self.player.profit = profit(self.player.demand, self.player.orderquantity2, Constants.sale_price,
@@ -127,7 +128,8 @@ class f0_G_AA(Page):
     # timer_text = Constants.timer_text
     # get_timeout_seconds = get_timeout_seconds
     def is_displayed(self):
-        return self.session.config['wo_ai_rounds'] < self.round_number <= self.session.config['simulation_rounds']
+        return self.session.config['wo_ai_rounds'] < self.round_number <= self.session.config['simulation_rounds'] and \
+               self.participant.vars['treatment'] != 'baseline'
 
     def vars_for_template(self):
         self.player.hidden_ai = self.participant.vars['hidden_ai']
@@ -173,6 +175,7 @@ class f0_G_AA(Page):
             'oq_now': oq_now,
             'is_performance': self.participant.vars['treatment'] == 'performance',
             'ai_profit_cum': players[self.round_number - 2].ai_profit_cum,
+            'not_baseline': self.participant.vars['treatment'] != 'baseline',
         }
 
     def before_next_page(self):
@@ -239,6 +242,7 @@ class f1_Results(Page):
             'test': self.participant.vars['pre_profit'],
             'ai_profit': self.player.ai_profit,
             'is_performance': self.participant.vars['treatment'] == 'performance',
+            'not_baseline': self.participant.vars['treatment'] != 'baseline',
             'ai_profit_cum': self.player.ai_profit_cum,
             'is_ai_rounds': (self.session.config['simulation_rounds'] >= self.round_number > self.session.config[
                 'wo_ai_rounds'])
@@ -257,7 +261,8 @@ class e1_T_intro(Page):
     # timer_text = Constants.timer_text
     # get_timeout_seconds = get_timeout_seconds
     def is_displayed(self):
-        return self.round_number == self.session.config['wo_ai_rounds']
+        return self.round_number == self.session.config['wo_ai_rounds'] and \
+               self.participant.vars['treatment'] != 'baseline'
 
     def vars_for_template(self):
         return {

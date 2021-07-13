@@ -109,7 +109,7 @@
 
     {% else %}
 
-        {% if round == simulation_rounds1 %}
+        {% if round == simulation_rounds1 and not_baseline %}
             <div class="modal hide fade in" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" align="center">
                 <div class="modal-dialog modal-dialog-centered modal-lg">
                     <div class="modal-content">
@@ -182,7 +182,7 @@
                             <tr valign="bottom" align="center">
                              <td><br>Day </td>
 
-                                {% if round > wo_ai_rounds1 %}
+                                {% if round > wo_ai_rounds1 and not_baseline%}
                                 <td style="color:gray; border-right: 0px solid">BakerAI's<br>Advice</td>
                                 {% endif %}
                                 <td>Actual<br>Demand</td>
@@ -200,7 +200,7 @@
                             {% for p in player_in_prev_rounds %}
                         <tr align="center">
                             <td>{{ p.round_number }}</td>
-                            {% if round > wo_ai_rounds1 %}
+                            {% if round > wo_ai_rounds1 and not_baseline %}
                             <td style="color:gray;border-right: 0px solid">{{ p.ai_text }}</td>
                             {% endif %}
                             <td>{{ p.demand }} loaves </td>

@@ -9,7 +9,7 @@
 
 <div class="card bg-light">
     <div class="container" style="text-align:center">
-        {% if  simulation_rounds >= round and round >= wo_ai_rounds1%}
+        {% if  simulation_rounds >= round and round >= wo_ai_rounds1 and not_baseline%}
             <center><div class="row justify-content-center" style="padding-top: 30px; width:500px; padding-left: 20px ">
                 <div class="col">
                     <input type="button" class="btn btn-outline-primary" data-toggle="collapse" data-target="#myCollapsible" value="Instructions">
@@ -88,7 +88,7 @@
         </p>
             </div>
 
-            {% if round == wo_ai_rounds1 %}
+            {% if round == wo_ai_rounds1 and not_baseline %}
                 <div id="myCollapsible3" class="collapse show" style="text-align:left; padding-left: 30px; padding-right: 30px">
             {% else %}
                 <div id="myCollapsible3" class="collapse" style="text-align:left; padding-left: 30px; padding-right: 30px">

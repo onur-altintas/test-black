@@ -17,6 +17,10 @@ class f1_z_Comments1(Page):
     form_model = "player"
     form_fields = ["c_uperf"]
 
+    def is_displayed(self):
+        return self.participant.vars['treatment'] != 'baseline'
+
+
     # timer_text = Constants.timer_text
     # get_timeout_seconds = get_timeout_seconds
 
@@ -27,6 +31,8 @@ class f1_z_Comments2(Page):
 
     # timer_text = Constants.timer_text
     # get_timeout_seconds = get_timeout_seconds
+    def is_displayed(self):
+        return self.participant.vars['treatment'] != 'baseline'
 
 
 class f1_z_Comments3(Page):
@@ -35,16 +41,24 @@ class f1_z_Comments3(Page):
 
     # timer_text = Constants.timer_text
     # get_timeout_seconds = get_timeout_seconds
+    def is_displayed(self):
+        return self.participant.vars['treatment'] != 'baseline'
 
 
 class f1_z_Comments4(Page):
     form_model = "player"
     form_fields = ["c_feel"]
 
+    def is_displayed(self):
+        return self.participant.vars['treatment'] != 'baseline'
+
 
 class f1_z_Comments5(Page):
     form_model = "player"
     form_fields = ["c_usage"]
+
+    def is_displayed(self):
+        return self.participant.vars['treatment'] != 'baseline'
 
     # timer_text = Constants.timer_text
     # get_timeout_seconds = get_timeout_seconds

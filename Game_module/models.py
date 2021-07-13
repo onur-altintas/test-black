@@ -27,7 +27,7 @@ class Constants(BaseConstants):
     education = ["No Degree", "School to a Certain Extent", "High School", "Associate Degree",
                  "Bachelor's degree", "Master's Degree", "Professional Degree", "Doctorate Degree", "Prefer Not to Say"]
     players_per_group = None
-    num_rounds = 40
+    num_rounds = 45
     # timer_text = 'Time to complete the simulation (min:sec):'
     instructions_template_a2 = 'Game_module/z_instructions_after_2.html'
     treatment_hidden = 'Game_module/z_Treatment_hidden.html'

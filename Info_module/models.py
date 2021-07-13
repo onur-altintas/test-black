@@ -29,7 +29,7 @@ class Constants(BaseConstants):
     cost = 3
     sale_price = 4
     base_pay = 3
-    wait_game = 30
+    wait_game = 20
 
 
 class Subsession(BaseSubsession):
@@ -37,7 +37,7 @@ class Subsession(BaseSubsession):
     def creating_session(self):
         # Assigning Treatment variables
         import itertools
-        turn_treatment = itertools.cycle(['black-box', 'partial', 'full', 'performance'])
+        turn_treatment = itertools.cycle(['baseline', 'black-box', 'partial', 'full', 'performance'])
         for player in self.get_players():
             player.treatment = next(turn_treatment)
 
