@@ -10,33 +10,15 @@ def profit(demand, orderquantity, sale, cost):
     return prof
 
 
-def ai_rec(sales, orderquantity, pre_ai, round_no, gamma, max_demand, price, cost):
+def ai_rec(demand, pre_ai, round_no, gamma, max_demand, price, cost):
     #    epsilon = (gamma * max_demand) / (max(cost, price - cost) * (round_no + 1) ** (1 / 2))
     epsilon = max_demand / (max(price, cost) * (round_no + 0))
     decrease_h_t = cost
     increase_h_t = -(price - cost)
-    if sales == orderquantity and sales < pre_ai:
-        # print("ai high,order=sales")
-        rec1 = pre_ai - epsilon * increase_h_t
-        rec2 = pre_ai - epsilon * decrease_h_t
-        # second_term = rec1 + max(rec2 / 2 - rec1 / 2, 0)
-        second_term = rec1
-    elif pre_ai > sales and orderquantity > sales:
-        # print("both high")
+    if demand <= pre_ai:
         second_term = pre_ai - epsilon * decrease_h_t
-    elif sales == orderquantity and sales >= pre_ai:
-        # print("sales=order>=ai")
-        second_term = pre_ai - epsilon * increase_h_t
-    elif orderquantity > sales and sales == pre_ai:
-        # print("sales=order>=ai")
-        second_term = sales - epsilon * decrease_h_t
-    elif orderquantity > sales > pre_ai:
-        # print("order high,ai low")
-
-        # rec1 = orderquantity - epsilon * decrease_h_t
-        rec2 = pre_ai - epsilon * increase_h_t
-        second_term = rec2
-        # + max(min(rec1, max_demand) / 2 - rec2 / 2, 0)
+    elif demand > pre_ai:
+        second_term = pre_ai - epsilon * decrease_h_t
     else:
         second_term = -10000
 
@@ -144,12 +126,11 @@ class f0_G_AA(Page):
         if self.round_number == self.session.config['wo_ai_rounds'] + 1:
             ai_recommendation = 96
         else:
-            p_sales = players[self.round_number - 2].sales
-            p_order = players[self.round_number - 2].orderquantity2
+            p_demand = players[self.round_number-2].demand
             p_ai = players[self.round_number - 2].ai_recommend
             p_round = self.round_number - 1
 
-            ai_recommendation = ai_rec(p_sales, p_order, p_ai, p_round, Constants.gamma, Constants.max_demand,
+            ai_recommendation = ai_rec(p_demand, p_ai, p_round, Constants.gamma, Constants.max_demand,
                                        Constants.sale_price, Constants.cost)
 
         self.player.ai_recommend = ai_recommendation
@@ -176,6 +157,8 @@ class f0_G_AA(Page):
             'is_performance': self.participant.vars['treatment'] == 'performance',
             'ai_profit_cum': players[self.round_number - 2].ai_profit_cum,
             'not_baseline': self.participant.vars['treatment'] != 'baseline',
+            'p_ai': p_ai,
+            'p_round': p_round
         }
 
     def before_next_page(self):
