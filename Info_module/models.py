@@ -38,7 +38,7 @@ class Subsession(BaseSubsession):
         # Assigning Treatment variables
         import itertools
         # turn_treatment = itertools.cycle(['baseline', 'black-box', 'partial', 'full', 'performance'])
-        turn_treatment = itertools.cycle(['baseline', 'black-box', 'performance'])
+        turn_treatment = itertools.cycle(['black-box', 'performance'])
 
         for player in self.get_players():
             player.treatment = next(turn_treatment)
