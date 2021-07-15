@@ -157,7 +157,6 @@ class f0_G_AA(Page):
             'is_performance': self.participant.vars['treatment'] == 'performance',
             'ai_profit_cum': players[self.round_number - 2].ai_profit_cum,
             'not_baseline': self.participant.vars['treatment'] != 'baseline',
-            'p_ai': p_ai,
             'p_round': p_round
         }
 
