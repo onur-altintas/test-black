@@ -18,7 +18,7 @@ def ai_rec(demand, pre_ai, round_no, gamma, max_demand, price, cost):
     if demand <= pre_ai:
         second_term = pre_ai - epsilon * decrease_h_t
     elif demand > pre_ai:
-        second_term = pre_ai - epsilon * decrease_h_t
+        second_term = pre_ai - epsilon * increase_h_t
     else:
         second_term = -10000
 
