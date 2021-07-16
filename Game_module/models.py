@@ -167,9 +167,10 @@ def custom_export(players):
     yield ['session', 'participant_code', 'round_number', 'demand', 'quantity',
            'sales', 'orderquantity2', 'cost',
            'leftover', 'ai_rec', 'profit', 'ai_profit_cum', 'id_in_group', 'payoff',
-           'ai_hidden', 'correct answers', 'profit_true', 'answer_true','treatment']
+           'ai_hidden', 'correct answers', 'profit_true', 'answer_true']
     for p in players:
+        participant = p.participant
         yield [p.session.code, p.participant.code, p.round_number, p.demand,
                p.orderquantity, p.sales, p.orderquantity2,
                p.cost, p.leftover, p.ai_recommend, p.profit, p.ai_profit_cum,
-               p.id_in_group, p.payoff, p.hidden_ai, p.correct_answers, p.profit_true, p.answer_true, p.participant.treatment]
+               p.id_in_group, p.payoff, p.hidden_ai, p.correct_answers, p.profit_true, p.answer_true]
