@@ -1,0 +1,49 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree_tags %}
+
+
+
+
+{% block content %}
+    <!--<div style="text-align: center;"> <h4> Participant Demographics </h4></div> -->
+    <h3>Please answer the following questions</h3>
+    <h5>(You will get {{ q_pay }} USD bonus for every correct answer)</h5>
+
+    <div style="padding:30px;text-align: center">
+    </div>
+
+    </div>
+     <div style="padding-bottom:15px; font-weight: 600; font-size: large"> Q1 - How much do your customers pay for a loaf of bread? (Unit selling price) </div>
+    <div style="font-weight: 500"> The correct answer is {{correct_sale|c}}</div>
+    {% if sale_true %}
+        <div style="color: darkgreen">Your answer was {{sale_answer |c}} </div>
+    {% else %}
+        <div style="color: darkred"> Your answer was {{sale_answer|c}} </div>
+    {% endif %}
+
+
+    <div style="padding:30px">
+
+    </div>
+
+<div style="padding-bottom:15px; font-weight: 600; font-size: large">Q2 - What is your current cumulative profit?</div>
+    <div style="font-weight: 500"> The correct answer is {{cumprofit_correct_answer}} - (Your current cumulative profit: {{current_cumprofit}})  </div>
+    {% if profit_true %}
+        <div style="color: darkgreen">Your answer was {{cumprofit_answer}} </div>
+    {% else %}
+        <div style="color: darkred"> Your answer was {{cumprofit_answer}}  </div>
+    {% endif %}
+
+    <div style="padding:30px">
+
+    </div>
+
+    {% next_button %}
+
+
+
+
+
+
+
+{% endblock %}

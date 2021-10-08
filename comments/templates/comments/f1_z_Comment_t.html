@@ -1,0 +1,51 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree_tags %}
+
+
+{% block content %}
+<!-- From bucinca 2021 -->
+    <div style="text-align: center;margin-bottom: 60px"> <h3> Please provide feedback to SmartBaker Company </h3></div>
+
+
+</table>
+<table id="likert">
+        <tr>
+        <th></th>
+        <th width="10%" style="text-align:center" >Strongly disagree</th>
+        <th width="10%" style="text-align:center">Disagree</th>
+        <th width="10%" style="text-align:center">Neutral</th>
+        <th width="10%" style="text-align:center">Agree</th>
+        <th width="10%" style="text-align:center">Strongly agree</th>
+        </tr>
+        {{for field in visible_fields }}
+        <tr height="60px">
+        <td>{{ form.field.label }}</td>
+        {{for choice in field}}
+                <td style="text-align:center">{{choice}}</td>
+
+         {{endfor}}
+        </tr>
+        {{endfor}}
+        </table>
+
+<div style="padding-bottom: 75px"></div>
+
+<p>Which ones did you utilize when you were making the order quantity decisions? Select all that apply.</p>
+{{ for field in Constants.decision }}
+<label>
+    <input type="checkbox" name="{{ field }}" value="1">
+    {{ field }}
+</label><br>
+{{ endfor }}
+
+    {% next_button %}
+
+
+
+
+
+
+
+
+
+{% endblock %}

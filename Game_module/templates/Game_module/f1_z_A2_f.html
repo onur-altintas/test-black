@@ -1,0 +1,38 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree_tags %}
+
+
+
+
+{% block content %}
+    <!--<div style="text-align: center;"> <h4> Participant Demographics </h4></div> -->
+    <h3>Please answer the following questions</h3>
+    <h5>(You will get {{ q_pay }} USD bonus for every correct answer)</h5>
+
+    <div style="padding:30px;text-align: center">
+</div>
+
+
+{% formfield player.attention_model_sale %}
+
+
+    <div style="padding:30px">
+
+    </div>
+
+    {% formfield player.attention_profit %}
+
+
+    <div style="padding:30px">
+
+    </div>
+
+    {% next_button %}
+
+
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree_tags %}
+
+
+
+
+{% block content %}
+    <!--<div style="text-align: center;"> <h4> Participant Demographics </h4></div> -->
+    <h3>Please answer the following questions</h3>
+    <h5>(You will get {{ q_pay }} USD bonus for every correct answer)</h5>
+
+    <div style="padding:30px">
+
+    </div>
+     <div style="padding-bottom:15px; font-weight: 600; font-size: large"> How much do you pay for a loaf of bread? (Unit purchase cost) </div>
+    <div style="font-weight: 500"> The correct answer is 3 E$</div>
+    {% if cost_true %}
+        <div style="color: darkgreen">Your answer was {{cost_answer |c}} </div>
+    {% else %}
+        <div style="color: darkred"> Your answer was {{cost_answer|c}} </div>
+    {% endif %}
+
+
+    <div style="padding:30px">
+
+    </div>
+
+<div style="padding-bottom:15px; font-weight: 600; font-size: large">What is the maximum demand observed historically? (Mentioned in the instructions)</div>
+    <div style="font-weight: 500"> The correct answer is 300 loaves </div>
+    {% if demand_true %}
+        <div style="color: darkgreen">Your answer was {{demand_answer}} loaves </div>
+    {% else %}
+        <div style="color: darkred"> Your answer was {{demand_answer}} loaves </div>
+    {% endif %}
+
+
+
+    <div style="padding:30px">
+
+    </div>
+
+
+    {% next_button %}
+
+
+
+
+
+
+
+{% endblock %}
+
