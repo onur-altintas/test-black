@@ -18,7 +18,7 @@ Actual Simulation
 # Assigning Treatment variables
 
 # turn_treatment = itertools.cycle(['baseline', 'black-box', 'partial', 'full', 'performance'])
-GROUPS = ['full', 'black-box', 'performance', 'partial', 'baseline']
+GROUPS = ['baseline', 'full', 'black-box', 'performance', 'partial']
 
 
 def profit(demand, orderquantity, sale, cost):
