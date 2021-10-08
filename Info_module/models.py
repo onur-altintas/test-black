@@ -46,4 +46,3 @@ class Player(BasePlayer):
     hidden_ai = models.BooleanField(label="Would you like the AI recommended quantities to be hidden? (version choice)",
                                     choices=[[True, 'Yes (hidden)'], [False, 'No (visible)']], widget=widgets.RadioSelect)
 
-    treatment = models.StringField()
