@@ -15,6 +15,11 @@ doc = """
 Actual Simulation
 """
 
+# Assigning Treatment variables
+
+# turn_treatment = itertools.cycle(['baseline', 'black-box', 'partial', 'full', 'performance'])
+GROUPS = ['full', 'black-box', 'performance']
+
 
 def profit(demand, orderquantity, sale, cost):
     prof = min(demand, orderquantity) * sale - orderquantity * cost
@@ -23,30 +28,41 @@ def profit(demand, orderquantity, sale, cost):
 
 class Constants(BaseConstants):
     name_in_url = 'Game_module'
-    gender = ["Female", "Male", "Other", "Prefer Not to Say"]
-    education = ["No Degree", "School to a Certain Extent", "High School", "Associate Degree",
-                 "Bachelor's degree", "Master's Degree", "Professional Degree", "Doctorate Degree", "Prefer Not to Say"]
+    profit_choice = [[-1, "Less than 0 E$"],
+                     [0, "Between 0 E$ and 1,999 E$"],
+                     [1, "Between 2,000 E$ and 3,999 E$"],
+                     [2, "Between 4,000 E$ and 5,999 E$"],
+                     [3, "Between 6,000 E$ and 7,999 E$"],
+                     [4, "Between 8,000 E$ and 9,999 E$"],
+                     [5, "More than 10,000 E$"]]
     players_per_group = None
     num_rounds = 45
-    # timer_text = 'Time to complete the simulation (min:sec):'
+    timer_text = 'Time to complete the simulation (min:sec):'
     instructions_template_a2 = 'Game_module/z_instructions_after_2.html'
     treatment_hidden = 'Game_module/z_Treatment_hidden.html'
     treatment_uncensored = 'Game_module/z_Treatment_uncensored.html'
     sale_price = 4
-    cost = 3
+    cost = 2
     gamma = 0.25
-    max_demand = 300
+    max_demand = 600
     base_pay = 3
-    wait_e1 = 20
-    wait_e2 = 60
+    wait_e1 = 0
+    wait_e2 = 0
     wait_game = 0
     wait_game_result = 0
-    wait_every5 = 10
+    wait_every5 = 0
 
 
 class Subsession(BaseSubsession):
     def creating_session(self):
-        ifile = open('randomdemand.csv', 'rt')
+
+        self.session.vars['completion_by_treatment'] = {color: 0 for color in GROUPS}
+        import time
+        for p in self.get_players():
+            p.participant.vars['expiry'] = time.time() + self.session.config['allocated_time_min'] * 60
+
+        demand_type = str('demand_') + self.session.config['demand_type'] + str(".csv")
+        ifile = open(demand_type, 'rt')
         dema = []
         try:
             reader = csv.reader(ifile)
@@ -76,9 +92,11 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
+    treatment = models.StringField()
+    ai_trust = models.IntegerField(blank=True, min=0, max=10, label="How much do you trust BakerAI's recommendations?")
     demand = models.PositiveIntegerField()
-    orderquantity = models.PositiveIntegerField(min=0, max=400)
-    orderquantity2 = models.PositiveIntegerField(min=0, max=400)
+    orderquantity = models.PositiveIntegerField(min=0, max=800)
+    orderquantity2 = models.PositiveIntegerField(min=0, max=800)
     sales = models.PositiveIntegerField()
     cost = models.PositiveIntegerField()
     revenue = models.PositiveIntegerField()
@@ -93,6 +111,7 @@ class Player(BasePlayer):
     profit_true = models.BooleanField(initial=False)
     correct_answers = models.IntegerField(initial=0)
     demand_quantity_dif = models.IntegerField()
+
 
     hidden_ai = models.BooleanField()
     # submit_ai = models.PositiveIntegerField(default=0, min=0, max=1)
@@ -112,7 +131,7 @@ class Player(BasePlayer):
 
     attention_model_sale = models.IntegerField(
         label="How much do your customers pay for a loaf of bread? (Unit selling price)",
-        choices=[[1, "1 E$"], [3, "3 E$"], [4, "4 E$"], [7, "7 E$"], [10, "10 E$"]],
+        choices=[[1, "1 E$"], [2, "2 E$"], [3, "3 E$"], [4, "4 E$"], [7, "7 E$"]],
         widget=widgets.RadioSelectHorizontal)
 
     attention_demand = models.IntegerField(
@@ -128,21 +147,13 @@ class Player(BasePlayer):
 
     attention_loss = models.IntegerField(
         label="How many experimental dollars (E$) do you lose for each unsold loaf of bread?",
-        choices=[[1, "1 E$"], [3, "3 E$"], [4, "4 E$"], [7, "7 E$"], [10, "10 E$"]],
+        choices=[[1, "1 E$"], [2, "2 E$"], [3, "3 E$"], [4, "4 E$"], [7, "7 E$"]],
         widget=widgets.RadioSelectHorizontal)
 
     attention_profit = models.IntegerField(label="What is your current cumulative profit?",
-                                           choices=[[-1, "Less than 0 E$"],
-                                                    [0, "Between 0 E$ and 199 E$"],
-                                                    [1, "Between 200 E$ and 399 E$"],
-                                                    [2, "Between 400 E$ and 599 E$"],
-                                                    [3, "Between 600 E$ and 799 E$"],
-                                                    [4, "Between 800 E$ and 999 E$"],
-                                                    [5, "More than 1000 E$"],
-                                                    [-2, "I don't remember"]], widget=widgets.RadioSelect)
+                                           choices=Constants.profit_choice, widget=widgets.RadioSelect)
     attention_model_cost = models.IntegerField(label="How much do you pay for a loaf of bread? (Unit purchase cost) ",
-                                               choices=[[1, "1 E$"], [3, "3 E$"], [4, "4 E$"], [7, "7 E$"],
-                                                        [10, "10 E$"]]
+                                               choices=[[1, "1 E$"], [2, "2 E$"], [3, "3 E$"], [4, "4 E$"], [7, "7 E$"]]
                                                , widget=widgets.RadioSelectHorizontal)
     ai_text = models.StringField()
     error1_count = models.IntegerField(default=0, initial=0)

@@ -13,7 +13,7 @@
 
     </div>
      <div style="padding-bottom:15px; font-weight: 600; font-size: large"> How much do you pay for a loaf of bread? (Unit purchase cost) </div>
-    <div style="font-weight: 500"> The correct answer is 3 E$</div>
+    <div style="font-weight: 500"> The correct answer is {{Constants.cost | c}} </div>
     {% if cost_true %}
         <div style="color: darkgreen">Your answer was {{cost_answer |c}} </div>
     {% else %}
@@ -26,7 +26,7 @@
     </div>
 
 <div style="padding-bottom:15px; font-weight: 600; font-size: large">What is the maximum demand observed historically? (Mentioned in the instructions)</div>
-    <div style="font-weight: 500"> The correct answer is 300 loaves </div>
+    <div style="font-weight: 500"> The correct answer is 600 loaves </div>
     {% if demand_true %}
         <div style="color: darkgreen">Your answer was {{demand_answer}} loaves </div>
     {% else %}

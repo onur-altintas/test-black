@@ -33,7 +33,7 @@ class a_Welcome(Page):
 
     def before_next_page(self):
         self.participant.vars['hidden_ai'] = self.session.config['hidden_ai']
-        self.participant.vars['treatment'] = self.player.treatment
+        self.participant.vars['treatment'] = 'performance'
 
 
 class a_Welcome_class(Page):
@@ -56,7 +56,6 @@ class a_Welcome_class(Page):
 
     def before_next_page(self):
         self.participant.vars['hidden_ai'] = self.session.config['hidden_ai']
-        self.participant.vars['treatment'] = self.player.treatment
 
 
 class b_Consent_info(Page):
@@ -87,7 +86,6 @@ class d_Game_info(Page):
     #get_timeout_seconds = get_timeout_seconds
     def vars_for_template(self):
         return {
-            'treatment': self.player.treatment,
             'simulation_rounds': self.session.config['simulation_rounds'],
             'total_rounds': self.session.config['ai_fail_rounds'],
 

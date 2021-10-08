@@ -26,7 +26,7 @@
                         <button class="btn btn-primary" onclick="enter_order()" id="order_button" disabled>Submit</button>
                     </div>
                     {%  if form.orderquantity.errors %}
-                        <div class="text" style="color:red"> Please enter an integer value between [0-400].</div>
+                        <div class="text" style="color:red"> Please enter an integer value between [0-800].</div>
                     {% endif %}
                 </div>
             </div>
@@ -117,7 +117,7 @@
                          <td>Demo <br>Day </td>
                             <td>Actual<br>Demand</td>
                             <td>Amount<br>Ordered</td>
-                            <td>Actual Demand and <br> Order Mismatch </td>
+                            <!--<td>Actual Demand and <br> Order Mismatch </td>-->
                             <td style="color:darkgreen">Amount<br>Sold</td>
                             <td style="color:darkred">Amount<br> Leftover</td>
                             <td>Demo <br>Profit</td>
@@ -127,7 +127,7 @@
                                 <td>{{ p.round_number }}</td>
                                 <td>{{ p.demand }} loaves </td>
                                 <td>{{ p.orderquantity }} loaves</td>
-                                <td>{{p.demand_quantity_dif}} loaves</td>
+                                <!--<td>{{p.demand_quantity_dif}} loaves</td>-->
                                 <td>{{ p.sales }} loaves</td>
                                 <td>{{ p.leftover }} loaves</td>
                             {% if p.profit > 0 %}

@@ -4,6 +4,12 @@
 
 
 {% block content %}
+<style>
+    .otree-timer {
+        display:initial;
+    }
+</style>
+
     <div class="text-center mb-1" style="font-size:22pt; font-weight:bold"> Order for Day {{ round }} (out of {{ last_round }} Days) </div>
     {% include Constants.instructions_template_a2 %}
       <div class="card p-3">
@@ -24,7 +30,7 @@
                         <button class="btn btn-primary" onclick="enter_order()" id="order_button" disabled>Submit</button>
                     </div>
                     {%  if form.orderquantity.errors %}
-                        <div class="text" style="color:red"> Please enter an integer value between [0-400].</div>
+                        <div class="text" style="color:red"> Please enter an integer value between [0-800].</div>
                     {% endif %}
                 </div>
             </div>
@@ -187,7 +193,7 @@
                                 {% endif %}
                                 <td>Actual<br>Demand</td>
                                 <td style="font-weight: 500; ">Amount<br>Ordered</td>
-                                <td>Actual Demand and <br> Order Mismatch </td>
+                                <!--<td>Actual Demand and <br> Order Mismatch </td>-->
                                 <td style="color:darkgreen">Amount<br>Sold</td>
                                 <td style="color:darkred">Amount <br> Leftover</td>
                                 <td>Your<br>Profit</td>
@@ -205,7 +211,7 @@
                             {% endif %}
                             <td>{{ p.demand }} loaves </td>
                             <td style="font-weight: 500">{{ p.orderquantity2 }} loaves</td>
-                            <td> {{p.demand_quantity_dif}} loaves</td>
+                            <!--<td> {{p.demand_quantity_dif}} loaves</td>-->
                             <td>{{ p.sales }} loaves</td>
                             <td>{{ p.leftover }} loaves</td>
                             {% if p.profit > 0 %}

@@ -1,8 +1,10 @@
-from otree.api import Currency as c, currency_range
-from ._builtin import Page, WaitPage
-from .models import Constants
+from otree.api import *
 
 import random
+
+from Game_module.models import Constants
+
+GROUPS = ['full', 'black-box', 'performance']
 
 
 def profit(demand, orderquantity, sale, cost):
@@ -31,14 +33,37 @@ def get_timeout_seconds(player):
     return player.participant.vars['expiry'] - time.time()
 
 
+def is_displayed1(input1, self: Page):
+    if input1 == 'dropout':
+        dip = self.get_timeout_seconds() < 0
+    elif input1 == 'explanation':
+        dip = (self.participant.vars['treatment'] == 'partial' or (self.participant.vars['treatment'] == 'full')) \
+              and self.round_number == self.session.config['wo_ai_rounds']
+    elif input1 == 'no_AI':
+        dip = self.round_number <= self.session.config['ai_fail_rounds']
+    elif input1 == 'ai_recommend':
+        dip = self.session.config['wo_ai_rounds'] < self.round_number <= self.session.config['simulation_rounds'] and \
+              self.participant.vars['treatment'] != 'baseline'
+    elif input1 == 'explanation_intro':
+        dip = self.round_number == self.session.config['wo_ai_rounds'] and \
+              self.participant.vars['treatment'] != 'baseline'
+    elif input1 == 'attention1':
+        dip = self.round_number == 1 and self.round_number <= self.session.config['ai_fail_rounds']
+    elif input1 == 'attention2':
+        dip = self.round_number == 11 and self.round_number <= self.session.config['ai_fail_rounds']
+    elif input1 == 'attention3':
+        dip = self.round_number == 21 and self.round_number <= self.session.config['ai_fail_rounds']
+    else:
+        dip = self.round_number <= self.session.config['ai_fail_rounds']
+    return dip
+
+
 class f0_G_no_AI(Page):
     form_model = "player"
     form_fields = ["orderquantity"]
 
-    # timer_text = Constants.timer_text
-    # get_timeout_seconds = get_timeout_seconds
     def is_displayed(self):
-        return self.round_number <= self.session.config['ai_fail_rounds']
+        return is_displayed1('no_AI', self)
 
     def vars_for_template(self):
         self.player.hidden_ai = self.participant.vars['hidden_ai']
@@ -83,6 +108,8 @@ class f0_G_no_AI(Page):
         }
 
     def before_next_page(self):
+        if self.round_number == self.session.config['wo_ai_rounds']:
+            self.player.session.vars['completion_by_treatment'][self.participant.vars['treatment']] += 1
         if self.round_number <= self.session.config['wo_ai_rounds'] or self.round_number > self.session.config[
             'simulation_rounds'] or self.participant.vars['treatment'] == 'baseline':
             self.player.orderquantity2 = self.player.orderquantity
@@ -102,16 +129,21 @@ class f0_G_no_AI(Page):
                                         profit(self.player.demand, self.player.orderquantity2, Constants.sale_price,
                                                Constants.cost)
 
+    def app_after_this_page(self, upcoming_apps):
+        if self.timeout_happened:
+            self.session.vars['completion_by_treatment'][self.player.participant.vars['treatment']] -= 1
+            return upcoming_apps[-1]
+
 
 class f0_G_AA(Page):
     form_model = "player"
     form_fields = ["orderquantity2"]
 
     # timer_text = Constants.timer_text
-    # get_timeout_seconds = get_timeout_seconds
+    get_timeout_seconds = get_timeout_seconds
+
     def is_displayed(self):
-        return self.session.config['wo_ai_rounds'] < self.round_number <= self.session.config['simulation_rounds'] and \
-               self.participant.vars['treatment'] != 'baseline'
+        return is_displayed1('ai_recommend', self)
 
     def vars_for_template(self):
         self.player.hidden_ai = self.participant.vars['hidden_ai']
@@ -124,9 +156,9 @@ class f0_G_AA(Page):
         cum_profit = sum(profits)
 
         if self.round_number == self.session.config['wo_ai_rounds'] + 1:
-            ai_recommendation = 96
+            ai_recommendation = 300
         else:
-            p_demand = players[self.round_number-2].demand
+            p_demand = players[self.round_number - 2].demand
             p_ai = players[self.round_number - 2].ai_recommend
             p_round = self.round_number - 1
 
@@ -172,7 +204,7 @@ class f0_G_AA(Page):
 
         if self.round_number == self.session.config['wo_ai_rounds'] + 1:
             self.participant.vars['pre_profit'] = sum([p.profit for p in self.player.in_previous_rounds()])
-            #self.player.ai_profit = self.participant.vars['pre_profit'] + \
+            # self.player.ai_profit = self.participant.vars['pre_profit'] + \
             #                        profit(self.player.demand,
             #                               self.session.vars['ai_counterfact_rec'][self.round_number - 6],
             #                               Constants.sale_price, Constants.cost)
@@ -181,7 +213,7 @@ class f0_G_AA(Page):
             self.player.ai_profit_cum = self.participant.vars['pre_profit'] + \
                                         self.player.ai_profit_round
         elif self.round_number <= self.session.config['simulation_rounds']:
-            #self.player.ai_profit = self.player.in_round(self.player.round_number - 1).ai_profit + \
+            # self.player.ai_profit = self.player.in_round(self.player.round_number - 1).ai_profit + \
             #                        profit(self.player.demand,
             #                               self.session.vars['ai_counterfact_rec'][self.round_number - 6],
             #                               Constants.sale_price, Constants.cost)
@@ -190,13 +222,21 @@ class f0_G_AA(Page):
             self.player.ai_profit_cum = self.player.in_round(self.player.round_number - 1).ai_profit_cum + \
                                         self.player.ai_profit_round
 
+    def app_after_this_page(self, upcoming_apps):
+        if self.timeout_happened:
+            self.session.vars['completion_by_treatment'][self.player.participant.vars['treatment']] -= 1
+            return upcoming_apps[-1]
 
-class f1_Results(Page):
+
+class f0_Results(Page):
+    form_model = "player"
+    form_fields = ["ai_trust"]
     # timer_text = Constants.timer_text
-    # get_timeout_seconds = get_timeout_seconds
+    get_timeout_seconds = get_timeout_seconds
+
     #
     def is_displayed(self):
-        return self.round_number <= self.session.config['ai_fail_rounds']
+        return is_displayed1('', self)
 
     def vars_for_template(self):
         demand = self.session.vars['demand'][self.round_number - 1]
@@ -207,6 +247,7 @@ class f1_Results(Page):
         extra_time = (self.round_number % 5 == 0 and self.round_number > self.session.config['wo_ai_rounds']) * \
                      min(Constants.wait_every5 * (self.round_number / 5) + 10, 20) * \
                      (self.round_number != self.session.config['ai_fail_rounds'])
+
 
         return {
             'round': self.round_number,
@@ -226,10 +267,12 @@ class f1_Results(Page):
             'not_baseline': self.participant.vars['treatment'] != 'baseline',
             'ai_profit_cum': self.player.ai_profit_cum,
             'is_ai_rounds': (self.session.config['simulation_rounds'] >= self.round_number > self.session.config[
-                'wo_ai_rounds'])
+                'wo_ai_rounds']),
+            'is_round_10': (self.round_number % 10 == 0) and self.round_number <= self.session.config['simulation_rounds']
         }
 
     def before_next_page(self):
+        self.player.treatment = self.participant.vars['treatment']
         if self.round_number == self.session.config['ai_fail_rounds']:
             players = self.player.in_all_rounds()
             profits = [p.profit for p in players]
@@ -237,13 +280,17 @@ class f1_Results(Page):
             self.participant.vars['cum_profit'] = cum_profit
             self.player.cum_profit = cum_profit
 
+    def app_after_this_page(self, upcoming_apps):
+        if self.timeout_happened:
+            self.session.vars['completion_by_treatment'][self.player.participant.vars['treatment']] -= 1
+            return upcoming_apps[-1]
+
 
 class e1_T_intro(Page):
     # timer_text = Constants.timer_text
     # get_timeout_seconds = get_timeout_seconds
     def is_displayed(self):
-        return self.round_number == self.session.config['wo_ai_rounds'] and \
-               self.participant.vars['treatment'] != 'baseline'
+        return is_displayed1('explanation_intro', self)
 
     def vars_for_template(self):
         return {
@@ -263,8 +310,7 @@ class e2_T(Page):
         }
 
     def is_displayed(self):
-        return (self.participant.vars['treatment'] == 'partial' or (self.participant.vars['treatment'] == 'full')) \
-               and self.round_number == self.session.config['wo_ai_rounds']
+        return is_displayed1('explanation', self)
 
 
 class e3_T_test(Page):
@@ -274,8 +320,7 @@ class e3_T_test(Page):
     # timer_text = Constants.timer_text
     # get_timeout_seconds = get_timeout_seconds
     def is_displayed(self):
-        return (self.participant.vars['treatment'] == 'partial' or (self.participant.vars['treatment'] == 'full')) \
-               and self.round_number == self.session.config['wo_ai_rounds']
+        return is_displayed1('explanation', self)
 
     def vars_for_template(self):
         wo_ai_rounds1 = self.session.config['wo_ai_rounds'] + 1
@@ -285,36 +330,12 @@ class e3_T_test(Page):
         }
 
 
-class f2_Payment_class(Page):
-    def is_displayed(self):
-        return self.round_number == self.session.config['ai_fail_rounds']
-
-    def vars_for_template(self):
-        if self.participant.payoff < 0:
-            self.participant.payoff = c(0)
-
-        players = self.player.in_all_rounds()
-        cum_profit = sum([p.profit for p in players])
-        payment = c(max(0, cum_profit)).to_real_world_currency(self.session)
-        abs_profit = abs(cum_profit)
-        participation_pay = self.session.config['participation_fee']
-        full_payment = self.participant.payoff_plus_participation_fee()
-        code = self.participant.code
-
-        return {'cum_profit': cum_profit,
-                'payment': payment,
-                'abs_profit': abs_profit,
-                'participation_pay': participation_pay,
-                'full_payment': full_payment,
-                'code': code}
-
-
-class f1_z_A(Page):
+class f1_A(Page):
     form_model = 'player'
     form_fields = ['attention_model_cost', 'attention_demand']
 
     def is_displayed(self):
-        return self.round_number == 1
+        return is_displayed1('attention1', self)
 
     def vars_for_template(self):
         return {
@@ -322,73 +343,170 @@ class f1_z_A(Page):
         }
 
     def before_next_page(self):
+        self.participant.vars['treatment'] = min(GROUPS, key=lambda color:
+        self.subsession.session.vars['completion_by_treatment'][color])
+        self.player.treatment = self.participant.vars['treatment']
+
+        import time
+        self.player.participant.vars['expiry'] = time.time() + 1200
+
         self.participant.vars['correct_answers'] = 0
-        if self.player.attention_model_cost == 3:
+        if self.player.attention_model_cost == Constants.cost:
             self.player.answer_true = True
             self.player.correct_answers = self.player.correct_answers + 1
             self.participant.vars['correct_answers'] = self.participant.vars['correct_answers'] + 1
 
-        if self.player.attention_demand == 300:
+        if self.player.attention_demand == 600:
             self.player.answer_true = True
             self.player.correct_answers = self.player.correct_answers + 1
             self.participant.vars['correct_answers'] = self.participant.vars['correct_answers'] + 1
 
+    def app_after_this_page(self, upcoming_apps):
+        if self.timeout_happened:
+            self.session.vars['completion_by_treatment'][self.player.participant.vars['treatment']] -= 1
+            return upcoming_apps[-1]
 
-class f1_z_A2(Page):
-    form_model = 'player'
-    form_fields = ['attention_model_sale', 'attention_profit']
 
+class f1_A_f(Page):
     def is_displayed(self):
-        return self.round_number == 11 and self.round_number <= self.session.config['ai_fail_rounds']
+        return is_displayed1('attention1', self)
 
     def vars_for_template(self):
         return {
             'q_pay': self.session.config['q_pay'],
-            'selection': max(int(self.participant.vars['cum_profit'] / 200), -1),
+            'cost_answer': self.player.attention_model_cost,
+            'demand_answer': self.player.attention_demand,
+            'demand_true': self.player.attention_demand == 600,
+            'cost_true': self.player.attention_model_cost == Constants.cost,
+        }
+
+    def app_after_this_page(self, upcoming_apps):
+        if self.timeout_happened and self.session.config['wo_ai_rounds'] < self.round_number:
+            self.session.vars['completion_by_treatment'][self.player.participant.vars['treatment']] -= 1
+            return upcoming_apps[-1]
+
+
+class f1_A2(Page):
+    form_model = 'player'
+    form_fields = ['attention_model_sale', 'attention_profit']
+
+    def is_displayed(self):
+        return is_displayed1('attention2', self)
+
+    def vars_for_template(self):
+        return {
+            'q_pay': self.session.config['q_pay'],
+            'selection': max(int(self.participant.vars['cum_profit'] / 2000), -1),
             'cum_profit': self.participant.vars['cum_profit'],
-            'test': int(int(self.participant.vars['cum_profit']) / 200)
+            'test': int(int(self.participant.vars['cum_profit']) / 2000),
+            'not_baseline': self.participant.vars['treatment'] != 'baseline',
         }
 
     def before_next_page(self):
-        if self.player.attention_model_sale == 4:
+        import time
+        self.player.participant.vars['expiry'] = time.time() + 900
+        if self.player.attention_model_sale == Constants.sale_price:
             self.player.answer_true = True
             self.player.correct_answers = self.player.correct_answers + 1
             self.participant.vars['correct_answers'] = self.participant.vars['correct_answers'] + 1
 
-        if self.player.attention_profit == max(int(int(self.participant.vars['cum_profit']) / 200), -1):
+        if self.player.attention_profit == max(int(int(self.participant.vars['cum_profit']) / 2000), -1):
             self.player.profit_true = True
             self.player.correct_answers = self.player.correct_answers + 1
             self.participant.vars['correct_answers'] = self.participant.vars['correct_answers'] + 1
 
+    def app_after_this_page(self, upcoming_apps):
+        if self.timeout_happened and self.session.config['wo_ai_rounds'] < self.round_number:
+            self.session.vars['completion_by_treatment'][self.player.participant.vars['treatment']] -= 1
+            return upcoming_apps[-1]
 
-class f1_z_A3(Page):
+
+class f1_A2_f(Page):
+    def is_displayed(self):
+        return is_displayed1('attention2', self)
+
+    def vars_for_template(self):
+        return {
+            'q_pay': self.session.config['q_pay'],
+            'sale_answer': self.player.attention_model_sale,
+            'cumprofit_correct_answer': str(
+                "'" + Constants.profit_choice[max(int(int(self.participant.vars['cum_profit']) / 2000), -1) + 1][
+                    1] + "'"),
+            'profit_true': self.player.profit_true,
+            'sale_true': self.player.attention_model_sale == Constants.sale_price,
+            'correct_sale': Constants.sale_price,
+            'cumprofit_answer': str("'" + Constants.profit_choice[self.player.attention_profit + 1][1] + "'"),
+            'attention_profit': self.player.attention_profit,
+            'current_cumprofit': self.participant.vars['cum_profit']
+        }
+
+    def app_after_this_page(self, upcoming_apps):
+        if self.timeout_happened and self.session.config['wo_ai_rounds'] < self.round_number:
+            self.session.vars['completion_by_treatment'][self.player.participant.vars['treatment']] -= 1
+            return upcoming_apps[-1]
+
+
+class f1_A3(Page):
     form_model = 'player'
     form_fields = ['attention_loss', 'attention_profit']
 
     def is_displayed(self):
-        return self.round_number == 21 and self.round_number <= self.session.config['ai_fail_rounds']
+        return is_displayed1('attention3', self)
 
     def vars_for_template(self):
 
         return {
-            'equal': max(self.participant.vars['cum_profit'] / 200, -1),
-            'q_pay': self.session.config['q_pay']
+            'equal': max(self.participant.vars['cum_profit'] / 2000, -1),
+            'q_pay': self.session.config['q_pay'],
+            'not_baseline': self.participant.vars['treatment'] != 'baseline',
         }
 
     def before_next_page(self):
-        if self.player.attention_loss == 3:
+        import time
+        self.player.participant.vars['expiry'] = time.time() + 900
+        if self.player.attention_loss == Constants.cost:
             self.player.answer_true = True
             self.player.correct_answers = self.player.correct_answers + 1
             self.participant.vars['correct_answers'] = self.participant.vars['correct_answers'] + 1
 
-        if self.player.attention_profit == max(int(int(self.participant.vars['cum_profit']) / 200), -1):
+        if self.player.attention_profit == max(int(int(self.participant.vars['cum_profit']) / 2000), -1):
             self.player.profit_true = True
             self.player.correct_answers = self.player.correct_answers + 1
             self.participant.vars['correct_answers'] = self.participant.vars['correct_answers'] + 1
 
+    def app_after_this_page(self, upcoming_apps):
+        if self.timeout_happened and self.session.config['wo_ai_rounds'] < self.round_number:
+            self.session.vars['completion_by_treatment'][self.player.participant.vars['treatment']] -= 1
+            return upcoming_apps[-1]
 
-page_sequence = [f1_z_A, f1_z_A2, f1_z_A3,
-                 f0_G_no_AI, f0_G_AA, f1_Results, e1_T_intro,
+
+class f1_A3_f(Page):
+    def is_displayed(self):
+        return is_displayed1('attention3', self)
+
+    def vars_for_template(self):
+        return {
+            'q_pay': self.session.config['q_pay'],
+            'loss_answer': self.player.attention_loss,
+            'cumprofit_correct_answer': str(
+                "'" + Constants.profit_choice[max(int(int(self.participant.vars['cum_profit']) / 2000), -1) + 1][
+                    1] + "'"),
+            'profit_true': self.player.profit_true,
+            'loss_true': self.player.attention_loss == Constants.cost,
+            'correct_loss': Constants.cost,
+            'cumprofit_answer': str("'" + Constants.profit_choice[self.player.attention_profit + 1][1] + "'"),
+            'current_cumprofit': self.participant.vars['cum_profit']
+
+        }
+
+    def app_after_this_page(self, upcoming_apps):
+        if self.timeout_happened and self.session.config['wo_ai_rounds'] < self.round_number:
+            self.session.vars['completion_by_treatment'][self.player.participant.vars['treatment']] -= 1
+            return upcoming_apps[-1]
+
+
+page_sequence = [f1_A, f1_A_f, f1_A2, f1_A2_f, f1_A3, f1_A3_f,
+                 f0_G_no_AI, f0_G_AA, f0_Results, e1_T_intro,
                  e2_T, e3_T_test]
 
 # page_sequence = [f0_Game_wo_AI, f1_Results_wo_AI, e1_Treatment_intro, e2_Treatment, e3_Treatment_test, f0_Game,

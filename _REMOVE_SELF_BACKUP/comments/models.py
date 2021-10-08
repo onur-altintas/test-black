@@ -39,7 +39,7 @@ class Constants(BaseConstants):
                [4, 'Agree'],
                [5, 'Strongly agree']]
     comment_t1 = [dict(name='c_AI', label='BakerAI\'s recommendations'),
-                  dict(name='c_gut', label='Intuition'),
+                  dict(name='c_gut', label='My intuition'),
                   dict(name='c_data', label='Data')]
 
 

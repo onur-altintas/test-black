@@ -9,17 +9,13 @@ class f1_z_Demographics(Page):
     form_model = "player"
     form_fields = ["age", "gender", "education"]
 
-    def vars_for_template(player: Player):
-        return{
-            'not_baseline': player.participant.vars['treatment'] != 'baseline'
-        }
     # timer_text = Constants.timer_text
     # get_timeout_seconds = get_timeout_seconds
 
 
 class f1_z_Comment_t(Page):
     form_model = "player"
-    form_fields = ["c_mental", "c_trust", "c_why"]
+    form_fields = ["c_mental", "c_trust" , "c_why"]
 
     def is_displayed(self):
         return self.participant.vars['treatment'] != 'baseline'

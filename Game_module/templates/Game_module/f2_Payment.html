@@ -1,4 +1,4 @@
-{% extends "global/Base.html" %}
+{% extends "global/Page.html" %}
 {% load staticfiles otree_tags %}
 
 {% block title %}
@@ -44,15 +44,3 @@
 
 
 {% endblock %}
-<!--
-    <p class="text-center mt-5 ">
-            Please enter the following code to get your payment. It will be processed within a week.
-    </p>
-    <p class="text-center" style="font-weight: 600; font-size: 15pt"> Your code:</p>
-    <p class="text-center" id="code" style="font-size:14pt"> </p>
-
-    <script>
-
-    document.getElementById("code").innerText = Math.random().toString(36).substr(2, 5)
-    </script>
--->

@@ -28,7 +28,7 @@ class Constants(BaseConstants):
     payment_per_correct_answer = 2
     instructions_template = 'Demo_module_wo_AI/z_instructions_new.html'
     sale_price = 4
-    cost = 3
+    cost = 2
     gamma = 0.25
     max_demand = 300
     wait_game = 0
@@ -57,7 +57,7 @@ class Subsession(BaseSubsession):
         # Demand inputs
         self.session.vars['demand'] = dema[0]
         self.session.vars['historydemand'] = history_demand[0]
-        hist_dem = [223, 300, 18, 169, 151, 237, 101]
+        hist_dem = [239, 326, 294, 343, 303, 258, 371, 274]
         self.session.vars['demo_demand'] = hist_dem[-Constants.num_rounds:]
 
         # Assigning Treatment variables
@@ -75,7 +75,7 @@ class Player(BasePlayer):
     treatment = models.BooleanField()
 
     demand = models.PositiveIntegerField()
-    orderquantity = models.PositiveIntegerField(min=0, max=400)
+    orderquantity = models.PositiveIntegerField(min=0, max=800)
     sales = models.PositiveIntegerField()
     revenue = models.PositiveIntegerField()
     cost = models.PositiveIntegerField()

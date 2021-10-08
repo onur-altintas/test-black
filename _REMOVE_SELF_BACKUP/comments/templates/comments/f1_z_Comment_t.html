@@ -1,11 +1,52 @@
 {% extends "global/Page.html" %}
 {% load staticfiles otree_tags %}
+{% load otree static %}
 
 
 {% block content %}
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<!-- Latest compiled JavaScript -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- From bucinca 2021 -->
     <div style="text-align: center;margin-bottom: 60px"> <h3> Please provide feedback to SmartBaker Company </h3></div>
 
 
+        <table id="likert">
+        <tr>
+        <th></th>
+        <th width="10%"  > Strongly disagree</th>
+        <th width="10%" > Disagree</th>
+        <th width="10%" > Neutral</th>
+        <th width="10%" > Agree</th>
+        <th width="10%" > Strongly agree</th>
+        </tr>
+        {{for field in form }}
+        {% if field.name == 'c_why' %}
+        {% else %}
+        <td style="text-align: left; padding-top: 20px">{{ field.label }}</td>
+        {{for choice in field}}
+                <th style="text-align: center">{{choice}}</th>
+         {{endfor}}
+        </tr>
+        {% endif %}
+        {{endfor}}
+        </table>
+
+        <p></p>
+        <div class="dropdown-divider"></div>
+        <div class="container-sm" style="width: 600px; padding-top: 30px">
+
+        {{formfield player.c_why}}
+        </div>
+
+<div style="padding-bottom: 75px"></div>
+
+<center>{{next_button}}</center>
+
+
+<!--
         <div class="modal" id="myModalAI"  data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true" align="left">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
@@ -32,15 +73,15 @@
 
             <script>
                 $(document).ready(function(){
-                    $("#myModalAI").modal({
+                    $("#myModal").modal({
                         focus:false,
                         backdrop: 'static'})
-                    $("#myModalAI").modal('show');
+                    $("#myModal").modal('show');
 
                 });
 
                 function closeModal(){
-                $('#myModalAI').modal('hide');}
+                $('#myModal').modal('hide');}
             </script>
 
             <style>
@@ -52,9 +93,8 @@
                 }
             </style>
 
+-->
 
-
-    {% next_button %} </center>
 
 
 

@@ -6,7 +6,7 @@
 {% block content %}
 <style>
     .otree-timer {
-        display: initial;
+        display: none;
     }
 </style>
 
@@ -230,5 +230,69 @@
             </div>
         </div>
     </div>
+
+{% if not_baseline and is_round_10%}
+            <div class="modal hide fade in" id="AIfeedback" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-bs-keyboard="false" aria-hidden="true" align="center">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header" >
+                            <h4 class='col-12 modal-title text-center'>
+                                SmartBaker needs your feedback </h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>
+                            <div style="padding-bottom: 40px; font-weight: 600">How much do you trust BakerAI's recommendations? <br>
+                        </div>
+                            <div class="range" list="tickmarks">
+                                Not at all &nbsp;<input type="range" name="ai_trust" id="ai_trust" min="0" max="10" oninput="changetext()"> &nbsp; Completely
+
+                                <p id="description" style="color: darkred; padding-top: 20px">Please enter your feedback</p>
+                                <p id="entry_check" value=0></p>
+                            </div>
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-primary btn-small" onclick="closeModal()"
+                                  data-dismiss="modal" value="True" id="close_button" style="visibility: hidden">Continue</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <script>
+            $(document).ready(function(){
+                $("#AIfeedback").modal({
+                    focus:false,
+                    backdrop: 'static'})
+                $("#AIfeedback").modal('show');
+
+            });
+
+            function closeModal(){
+                $('#AIfeedback').modal('hide');
+            }
+
+            function changetext(){
+                document.getElementById("description").innerText=""
+                document.getElementById("close_button").style.visibility="visible"
+                document.getElementById("entry_check").value=1
+            }
+        </script>
+
+
+        <style>
+            .modal-dialog {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) !important;
+            }
+            .modal{
+                background-color: lightgray;
+            }
+        </style>
+{% endif %}
+
+
 
 {% endblock %}

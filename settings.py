@@ -5,7 +5,7 @@ SESSION_CONFIGS = [
         name='Interpret_ai',
         display_name="Interpretable AI",
         num_demo_participants=6,
-        app_sequence=['Info_module', 'Demo_module_wo_AI', 'Game_module', 'comments'],
+        app_sequence=['Info_module', 'Demo_module_wo_AI', 'Game_module', 'comments', 'Dropout'],
         hidden_ai=False,
         allocated_time_min=100000,
         demo_rounds=3,
@@ -14,8 +14,9 @@ SESSION_CONFIGS = [
         ai_fail_rounds=45,
         use_browser_bots=False,
         ai_column=False,
-        q_pay=0.25,
-        duration=45,
+        q_pay=0.2,
+        duration=15,
+        demand_type='high'
     ),
     dict(
         name='NV_without_AI',
@@ -38,7 +39,7 @@ SESSION_CONFIGS = [
 # e.g. self.session.config['participation_fee'] 'Demo_module_wo_AI',
 
 SESSION_CONFIG_DEFAULTS = dict(
-    real_world_currency_per_point=0.002, participation_fee=3.00, doc="",
+    real_world_currency_per_point=0.0002, participation_fee=3.00, doc="",
     mturk_hit_settings={
     'keywords': ['easy', 'bonus', 'choice', 'study'],
     'title': 'Buying and Selling Experiment',
