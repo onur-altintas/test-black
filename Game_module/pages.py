@@ -62,6 +62,7 @@ class f0_G_no_AI(Page):
     form_model = "player"
     form_fields = ["orderquantity"]
 
+    get_timeout_seconds = get_timeout_seconds
     def is_displayed(self):
         return is_displayed1('no_AI', self)
 
