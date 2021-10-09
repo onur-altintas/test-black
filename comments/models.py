@@ -77,6 +77,6 @@ class Player(BasePlayer):
     c_compare = models.LongStringField(label="Do you think you or BakerAI performed better and why? Please explain "
                                              "it shortly")
     c_feel = models.LongStringField(label="What are your thoughts and feelings about BakerAI?")
-    c_usage = models.LongStringField(label="What information would increase your use of BakerAI?")
+    c_usage = models.LongStringField(label="What would increase your use of BakerAI?")
 
     pass

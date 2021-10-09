@@ -147,6 +147,6 @@ class f2_Payment(Page):
             self.session.config['q_pay'])
 
 
-page_sequence = [f1_z_Demographics, f1_z_Comment_t, f1_z_Comment_t1, f1_z_Comments1, f1_z_Comments2, f1_z_Comments3,
+page_sequence = [f1_z_Demographics, f1_z_Comment_t, f1_z_Comments3, f1_z_Comment_t1, f1_z_Comments1, f1_z_Comments2,
                  f1_z_Comments4, f2_Payment]
 # f1_z_Comments5, ,

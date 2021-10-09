@@ -47,11 +47,11 @@ class Constants(BaseConstants):
     gamma = 0.25
     max_demand = 600
     base_pay = 3
-    wait_e1 = 0
-    wait_e2 = 0
+    wait_e1 = 20
+    wait_e2 = 40
     wait_game = 0
     wait_game_result = 0
-    wait_every5 = 0
+    wait_every5 = 5
 
 
 class Subsession(BaseSubsession):
@@ -143,8 +143,7 @@ class Player(BasePlayer):
                  [400, "400"],
                  [500, "500"],
                  [600, "600"],
-                 [700, "700"],
-                 [0, "I don't know"]], widget=widgets.RadioSelectHorizontal)
+                 [700, "700"]], widget=widgets.RadioSelectHorizontal)
 
     attention_loss = models.IntegerField(
         label="How many experimental dollars (E$) do you lose for each unsold loaf of bread?",
