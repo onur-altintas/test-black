@@ -18,7 +18,7 @@ Actual Simulation
 # Assigning Treatment variables
 
 # turn_treatment = itertools.cycle(['baseline', 'black-box', 'partial', 'full', 'performance'])
-GROUPS = ['full', 'partial', 'partialc', 'black-box', 'baseline']
+GROUPS = ['baseline', 'full', 'partial', 'partialc', 'black-box']
 
 
 
@@ -51,7 +51,7 @@ class Constants(BaseConstants):
     wait_e2 = 40
     wait_game = 0
     wait_game_result = 0
-    wait_every5 = 5
+    wait_every5 = 0
 
 
 class Subsession(BaseSubsession):

@@ -4,7 +4,7 @@ import random
 
 from Game_module.models import Constants
 
-GROUPS = ['full', 'partial', 'partialc', 'black-box', 'baseline']
+GROUPS = ['baseline', 'full', 'partial', 'partialc', 'black-box']
 
 
 def profit(demand, orderquantity, sale, cost):
@@ -75,8 +75,9 @@ class f0_G_no_AI(Page):
         self.player.hidden_ai = self.participant.vars['hidden_ai']
         wo_ai_rounds1 = self.session.config['wo_ai_rounds'] + 1
         # self.player.treatment = self.participant.vars['treatment']
-        import time
-        self.player.participant.vars['expiry'] = time.time() + 600
+        if self.round_number >= wo_ai_rounds1:
+            import time
+            self.player.participant.vars['expiry'] = time.time() + 600
 
         players = self.player.in_previous_rounds()
         profits = [p.profit for p in players]
@@ -253,7 +254,7 @@ class f0_Results(Page):
         cum_profit = sum(profits)
         self.participant.vars['cum_profit'] = cum_profit
         extra_time = (self.round_number % 5 == 0 and self.round_number > self.session.config['wo_ai_rounds']) * \
-                     min(Constants.wait_every5 * (self.round_number / 5) + 10, 20) * \
+                     min(Constants.wait_every5 * (self.round_number / 5) + 15, 20) * \
                      (self.round_number != self.session.config['ai_fail_rounds'])
 
 
