@@ -4,7 +4,7 @@ import random
 
 from Game_module.models import Constants
 
-GROUPS = ['baseline', 'full', 'partial', 'partialc', 'black-box']
+GROUPS = ['full', 'partial', 'partialc', 'black-box', 'baseline']
 
 
 def profit(demand, orderquantity, sale, cost):
