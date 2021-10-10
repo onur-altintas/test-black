@@ -15,7 +15,7 @@ SESSION_CONFIGS = [
         use_browser_bots=False,
         ai_column=False,
         q_pay=0.2,
-        duration=15,
+        duration=45,
         demand_type='high'
     ),
     dict(
