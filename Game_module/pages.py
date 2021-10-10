@@ -4,7 +4,7 @@ import random
 
 from Game_module.models import Constants
 
-GROUPS = ['full', 'black-box', 'baseline', 'partial']
+GROUPS = ['full', 'partial', 'partialc', 'black-box', 'baseline']
 
 
 def profit(demand, orderquantity, sale, cost):
@@ -37,6 +37,10 @@ def is_displayed1(input1, self: Page):
     if input1 == 'dropout':
         dip = self.get_timeout_seconds() < 0
     elif input1 == 'explanation':
+        dip = (self.participant.vars['treatment'] == 'partial' or (self.participant.vars['treatment'] == 'full') or \
+               (self.participant.vars['treatment'] == 'partialc')) \
+              and self.round_number == self.session.config['wo_ai_rounds']
+    elif input1 == 'explanation_test':
         dip = (self.participant.vars['treatment'] == 'partial' or (self.participant.vars['treatment'] == 'full')) \
               and self.round_number == self.session.config['wo_ai_rounds']
     elif input1 == 'no_AI':
@@ -321,7 +325,7 @@ class e3_T_test(Page):
     # timer_text = Constants.timer_text
     # get_timeout_seconds = get_timeout_seconds
     def is_displayed(self):
-        return is_displayed1('explanation', self)
+        return is_displayed1('explanation_test', self)
 
     def vars_for_template(self):
         wo_ai_rounds1 = self.session.config['wo_ai_rounds'] + 1

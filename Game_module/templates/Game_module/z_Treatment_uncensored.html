@@ -7,7 +7,7 @@
             Therefore, we would like to spend a couple minutes to explain the dynamics of BakerAI's recommendation below.
         </p>
 
-        {% if treatment == 'full' %}
+        {% if treatment == 'full' or treatment == 'partialc'%}
             <hr>
             <p style="padding-top:0px ">
                 <span>
@@ -23,9 +23,10 @@
                     if you follow its recommendation every day.
                 </span>
             </p>
-            <hr>
-        {% endif %}
 
+        {% endif %}
+        {% if treatment == 'full' or treatment == 'partial' %}
+        <hr>
         <p><div style="text-align: center;"><u><strong>How BakerAI software works:</strong></u><br></div></p>
 
         <div class="row justify-content-center">
@@ -90,7 +91,7 @@
                 </div>
             </div>
         </div>
-
+        {% endif %}
     </span>
 
 

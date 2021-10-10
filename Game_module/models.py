@@ -18,7 +18,7 @@ Actual Simulation
 # Assigning Treatment variables
 
 # turn_treatment = itertools.cycle(['baseline', 'black-box', 'partial', 'full', 'performance'])
-GROUPS = ['full', 'black-box', 'baseline', 'partial']
+GROUPS = ['full', 'partial', 'partialc', 'black-box', 'baseline']
 
 
 
