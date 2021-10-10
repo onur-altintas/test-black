@@ -4,6 +4,11 @@
 
 
 {% block content %}
+<style>
+    .otree-timer {
+        display:initial;
+    }
+</style>
     <div class="text-center mb-1" style="font-size:22pt; font-weight:bold"> Order for Day {{ round }} (out of {{ last_round }} Days) </div>
 
     {% include Constants.instructions_template_a2 %}

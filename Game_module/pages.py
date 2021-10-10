@@ -67,6 +67,7 @@ class f0_G_no_AI(Page):
     form_fields = ["orderquantity"]
 
     get_timeout_seconds = get_timeout_seconds
+
     def is_displayed(self):
         return is_displayed1('no_AI', self)
 
@@ -74,6 +75,8 @@ class f0_G_no_AI(Page):
         self.player.hidden_ai = self.participant.vars['hidden_ai']
         wo_ai_rounds1 = self.session.config['wo_ai_rounds'] + 1
         # self.player.treatment = self.participant.vars['treatment']
+        import time
+        self.player.participant.vars['expiry'] = time.time() + 600
 
         players = self.player.in_previous_rounds()
         profits = [p.profit for p in players]
@@ -304,6 +307,10 @@ class e1_T_intro(Page):
             'trial_period': self.session.config['simulation_rounds'] - self.session.config['wo_ai_rounds']
         }
 
+    def before_next_page(self):
+        import time
+        self.player.participant.vars['expiry'] = time.time() + 900
+
 
 class e2_T(Page):
     # timer_text = Constants.timer_text
@@ -351,9 +358,6 @@ class f1_A(Page):
         self.participant.vars['treatment'] = min(GROUPS, key=lambda color:
         self.subsession.session.vars['completion_by_treatment'][color])
         self.player.treatment = self.participant.vars['treatment']
-
-        import time
-        self.player.participant.vars['expiry'] = time.time() + 1200
 
         self.participant.vars['correct_answers'] = 0
         if self.player.attention_model_cost == Constants.cost:
@@ -408,8 +412,7 @@ class f1_A2(Page):
         }
 
     def before_next_page(self):
-        import time
-        self.player.participant.vars['expiry'] = time.time() + 900
+
         if self.player.attention_model_sale == Constants.sale_price:
             self.player.answer_true = True
             self.player.correct_answers = self.player.correct_answers + 1
@@ -467,8 +470,7 @@ class f1_A3(Page):
         }
 
     def before_next_page(self):
-        import time
-        self.player.participant.vars['expiry'] = time.time() + 900
+
         if self.player.attention_loss == Constants.cost:
             self.player.answer_true = True
             self.player.correct_answers = self.player.correct_answers + 1
