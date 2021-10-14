@@ -34,7 +34,6 @@ class a_Welcome(Page):
     def before_next_page(self):
         self.participant.vars['hidden_ai'] = self.session.config['hidden_ai']
 
-
 class a_Welcome_class(Page):
 
     #timer_text = Constants.timer_text

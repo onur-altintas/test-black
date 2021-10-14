@@ -38,6 +38,13 @@ class Constants(BaseConstants):
                [3, 'Neither agree nor disagree'],
                [4, 'Agree'],
                [5, 'Strongly agree']]
+
+    freq5 = [[1, 'Never'],
+               [2, 'Rarely'],
+               [3, 'Sometimes'],
+               [4, 'Most of the Time'],
+               [5, 'Always']]
+
     comment_t1 = [dict(name='c_AI', label='BakerAI\'s recommendations'),
                   dict(name='c_gut', label='Intuition'),
                   dict(name='c_data', label='Data')]
@@ -57,6 +64,7 @@ class Player(BasePlayer):
                                 choices=Constants.gender)
     education = models.StringField(label="What is the highest degree or level of school you have completed?",
                                    choices=Constants.education)
+    ai_trust= models.IntegerField(blank=True, min=1, max=10)
 
     c_uperf = models.IntegerField(
         label="What do you think about your performance?",
@@ -69,11 +77,11 @@ class Player(BasePlayer):
                                   choices=Constants.likert5, widget=widgets.RadioSelectHorizontal)
     c_mental = models.IntegerField(label="I found this task difficult",
                                    choices=Constants.likert5, widget=widgets.RadioSelectHorizontal)
-    c_gut = models.BooleanField(initial=False, blank=True)
-    c_AI = models.BooleanField(initial=False, blank=True)
-    c_data = models.BooleanField(initial=False, blank=True)
+    c_gut = models.IntegerField(min=1, max=5, choices=Constants.freq5, label="My Intuition", widget=widgets.RadioSelectHorizontal)
+    c_AI = models.IntegerField(min=1, max=5, choices=Constants.freq5, label="Demand Data", widget=widgets.RadioSelectHorizontal)
+    c_data = models.IntegerField(min=1, max=5, choices=Constants.freq5, label= "BakerAI Recommendations", widget=widgets.RadioSelectHorizontal)
     c_other = models.StringField(blank=True)
-    c_why = models.LongStringField(label="Please explain why you did or did not trust BakerAI's recommendations")
+    c_why = models.LongStringField(label="Please explain the reasons why you did or did not trust BakerAI's recommendations")
     c_compare = models.LongStringField(label="Do you think you or BakerAI performed better and why? Please explain "
                                              "it shortly")
     c_feel = models.LongStringField(label="What are your thoughts and feelings about BakerAI?")

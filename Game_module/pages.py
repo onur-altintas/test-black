@@ -165,7 +165,8 @@ class f0_G_AA(Page):
         cum_profit = sum(profits)
 
         if self.round_number == self.session.config['wo_ai_rounds'] + 1:
-            ai_recommendation = 300
+            ai_recommendation = (self.session.config['demand_type'] == 'high') * 150 + (self.session.config[
+                'demand_type'] == 'low') * 250
         else:
             p_demand = players[self.round_number - 2].demand
             p_ai = players[self.round_number - 2].ai_recommend
@@ -197,7 +198,7 @@ class f0_G_AA(Page):
             'oq_now': oq_now,
             'is_performance': self.participant.vars['treatment'] == 'performance',
             'ai_profit_cum': players[self.round_number - 2].ai_profit_cum,
-            'not_baseline': self.participant.vars['treatment'] != 'baseline'
+            'not_baseline': self.participant.vars['treatment'] != 'baseline',
         }
 
     def before_next_page(self):
@@ -257,7 +258,6 @@ class f0_Results(Page):
                      min(Constants.wait_every5 * (self.round_number / 5) + 15, 20) * \
                      (self.round_number != self.session.config['ai_fail_rounds'])
 
-
         return {
             'round': self.round_number,
             'demand': demand,
@@ -277,7 +277,8 @@ class f0_Results(Page):
             'ai_profit_cum': self.player.ai_profit_cum,
             'is_ai_rounds': (self.session.config['simulation_rounds'] >= self.round_number > self.session.config[
                 'wo_ai_rounds']),
-            'is_round_10': (self.round_number % 10 == 0) and self.round_number <= self.session.config['simulation_rounds']
+            'is_round_10': (self.round_number % 10 == 0) and self.round_number <= self.session.config[
+                'simulation_rounds']
         }
 
     def before_next_page(self):
@@ -408,7 +409,7 @@ class f1_A2(Page):
             'q_pay': self.session.config['q_pay'],
             'selection': max(int(self.participant.vars['cum_profit'] / 2000), -1),
             'cum_profit': self.participant.vars['cum_profit'],
-            'test': int(int(self.participant.vars['cum_profit']) / 2000),
+            'test': int(int(self.participant.vars['cum_profit']) / 1000),
             'not_baseline': self.participant.vars['treatment'] != 'baseline',
         }
 
@@ -419,7 +420,7 @@ class f1_A2(Page):
             self.player.correct_answers = self.player.correct_answers + 1
             self.participant.vars['correct_answers'] = self.participant.vars['correct_answers'] + 1
 
-        if self.player.attention_profit == max(int(int(self.participant.vars['cum_profit']) / 2000), -1):
+        if self.player.attention_profit == max(int(int(self.participant.vars['cum_profit']) / 1000), -1):
             self.player.profit_true = True
             self.player.correct_answers = self.player.correct_answers + 1
             self.participant.vars['correct_answers'] = self.participant.vars['correct_answers'] + 1
@@ -439,7 +440,7 @@ class f1_A2_f(Page):
             'q_pay': self.session.config['q_pay'],
             'sale_answer': self.player.attention_model_sale,
             'cumprofit_correct_answer': str(
-                "'" + Constants.profit_choice[max(int(int(self.participant.vars['cum_profit']) / 2000), -1) + 1][
+                "'" + Constants.profit_choice[max(int(int(self.participant.vars['cum_profit']) / 1000), -1) + 1][
                     1] + "'"),
             'profit_true': self.player.profit_true,
             'sale_true': self.player.attention_model_sale == Constants.sale_price,
@@ -477,7 +478,7 @@ class f1_A3(Page):
             self.player.correct_answers = self.player.correct_answers + 1
             self.participant.vars['correct_answers'] = self.participant.vars['correct_answers'] + 1
 
-        if self.player.attention_profit == max(int(int(self.participant.vars['cum_profit']) / 2000), -1):
+        if self.player.attention_profit == max(int(int(self.participant.vars['cum_profit']) / 1000), -1):
             self.player.profit_true = True
             self.player.correct_answers = self.player.correct_answers + 1
             self.participant.vars['correct_answers'] = self.participant.vars['correct_answers'] + 1
@@ -497,7 +498,7 @@ class f1_A3_f(Page):
             'q_pay': self.session.config['q_pay'],
             'loss_answer': self.player.attention_loss,
             'cumprofit_correct_answer': str(
-                "'" + Constants.profit_choice[max(int(int(self.participant.vars['cum_profit']) / 2000), -1) + 1][
+                "'" + Constants.profit_choice[max(int(int(self.participant.vars['cum_profit']) / 1000), -1) + 1][
                     1] + "'"),
             'profit_true': self.player.profit_true,
             'loss_true': self.player.attention_loss == Constants.cost,

@@ -30,12 +30,12 @@ def profit(demand, orderquantity, sale, cost):
 class Constants(BaseConstants):
     name_in_url = 'Game_module'
     profit_choice = [[-1, "Less than 0 E$"],
-                     [0, "Between 0 E$ and 1,999 E$"],
-                     [1, "Between 2,000 E$ and 3,999 E$"],
-                     [2, "Between 4,000 E$ and 5,999 E$"],
-                     [3, "Between 6,000 E$ and 7,999 E$"],
-                     [4, "Between 8,000 E$ and 9,999 E$"],
-                     [5, "More than 10,000 E$"]]
+                     [0, "Between 0 E$ and 999 E$"],
+                     [1, "Between 1,000 E$ and 1,999 E$"],
+                     [2, "Between 2,000 E$ and 2,999 E$"],
+                     [3, "Between 3,000 E$ and 3,999 E$"],
+                     [4, "Between 4,000 E$ and 4,999 E$"],
+                     [5, "More than 5,000 E$"]]
     players_per_group = None
     num_rounds = 45
     timer_text = 'Time to complete the simulation (min:sec):'
@@ -43,7 +43,7 @@ class Constants(BaseConstants):
     treatment_hidden = 'Game_module/z_Treatment_hidden.html'
     treatment_uncensored = 'Game_module/z_Treatment_uncensored.html'
     sale_price = 4
-    cost = 2
+    cost = 3
     gamma = 0.25
     max_demand = 600
     base_pay = 3
@@ -51,7 +51,7 @@ class Constants(BaseConstants):
     wait_e2 = 40
     wait_game = 0
     wait_game_result = 0
-    wait_every5 = 0
+    wait_every5 = 5
 
 
 class Subsession(BaseSubsession):
@@ -94,7 +94,7 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
     treatment = models.StringField()
-    ai_trust = models.IntegerField(blank=True, min=0, max=10, label="How much do you trust BakerAI's recommendations?")
+    ai_trust = models.IntegerField(blank=True, min=1, max=10, label="How much do you trust BakerAI's recommendations?")
     demand = models.PositiveIntegerField()
     orderquantity = models.PositiveIntegerField(min=0, max=800)
     orderquantity2 = models.PositiveIntegerField(min=0, max=800)

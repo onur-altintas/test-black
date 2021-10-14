@@ -19,7 +19,7 @@ class f1_z_Demographics(Page):
 
 class f1_z_Comment_t(Page):
     form_model = "player"
-    form_fields = ["c_mental", "c_trust", "c_why"]
+    form_fields = ["ai_trust", "c_why"]
 
     def is_displayed(self):
         return self.participant.vars['treatment'] != 'baseline'
@@ -27,18 +27,10 @@ class f1_z_Comment_t(Page):
 
 class f1_z_Comment_t1(Page):
     form_model = "player"
-    form_fields = ["c_gut", "c_AI", "c_data", "c_other"]
+    form_fields = ["c_gut", "c_AI", "c_data"]
 
     def is_displayed(self):
         return self.participant.vars['treatment'] != 'baseline'
-
-    def error_message(player: Player, values):
-        num = 0
-        for lang in Constants.comment_t1:
-            if values[lang['name']]:
-                num += 1
-        if num < 1 and values['c_other'] == '':
-            return "You must check at least 1 of the first 3 boxes or type for \"Other\" option."
 
 
 class f1_z_Comments1(Page):
@@ -52,8 +44,7 @@ class f1_z_Comments1(Page):
         return {
             'c_gut': self.player.c_gut,
             'c_AI': self.player.c_AI,
-            'c_data': self.player.c_data,
-            'c_other': self.player.c_other
+            'c_data': self.player.c_data
         }
 
     # timer_text = Constants.timer_text

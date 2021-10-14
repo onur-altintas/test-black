@@ -3,27 +3,30 @@
 
 
 {% block content %}
-<!-- From bucinca 2021 -->
+<!-- From bucinca 2021 --> <!-- Choices from https://vcsa.ucsd.edu/_files/assessment/workshops/2013-02-21_Writing-Good-Survey-Questions-Handouts.pdf-->
     <div style="text-align: center;margin-bottom: 60px"> <h3> Please provide feedback to SmartBaker Company </h3></div>
 
+    <div style="font-weight: 600; font-size: 14pt;padding-bottom: 20px">How often did you use the following information to make your order quantity decisions?</div>
+        <table id="likert">
+        <tr>
+        <th width="300px"></th>
+        <th width="14%" style="text-align: center"> Never</th>
+        <th width="14%" style="text-align: center"> Rarely</th>
+        <th width="14%" style="text-align: center"> Sometimes</th>
+        <th width="19%" style="text-align: center"> Most of the Time</th>
+        <th width="14%" style="text-align: center"> Always</th>
+        </tr>
+
+        {{for field in form }}
+        <td style="text-align: left; padding-top: 20px">{{ field.label }}</td>
+        {{for choice in field}}
+                <th  style="text-align: center;padding-top: 20px">{{choice}}</th>
+         {{endfor}}
+        </tr>
+        {{endfor}}
+        </table>
 
 
-<p style="font-weight: 600; font-size: large">What information did you use when you were making the order quantity decisions? Select all that apply.</p>
-{{ for field in Constants.comment_t1 }}
-
-    <div class="form-check" style="padding-left: 50px">
-        <input type="checkbox" class="form-check-input" id="{{field.name}}" name={{field.name}} value="1">
-        <label class="col-form-label-md">{{field.label}}</label>
-    </div>
-<br>
-{{ endfor }}
-
-    <div class="form-check" style="padding-left: 50px">
-      <label>
-          <input type="checkbox" class="form-check-input"> <span>Other</span>
-          <input type="text" placeholder="" class="form-control" name="c_other" id="c_other" />
-      </label>
-    </div>
 <div style="padding-bottom: 50px"></div>
 
 <center> {% next_button %} </center>

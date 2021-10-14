@@ -39,7 +39,7 @@ SESSION_CONFIGS = [
 # e.g. self.session.config['participation_fee'] 'Demo_module_wo_AI',
 
 SESSION_CONFIG_DEFAULTS = dict(
-    real_world_currency_per_point=0.0002, participation_fee=3.00, doc="",
+    real_world_currency_per_point=0.001, participation_fee=3.00, doc="",
     mturk_hit_settings={
     'keywords': ['easy', 'bonus', 'choice', 'study'],
     'title': 'Buying and Selling Experiment',

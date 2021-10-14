@@ -29,7 +29,7 @@ class Constants(BaseConstants):
     info_sheet = 'Info_module/z_consent.html'
     welcome_template = 'Info_module/z_welcome_template.html'
     #welcome_template_class = 'Info_module/z_welcome_template_class.html'
-    cost = 2
+    cost = 3
     sale_price = 4
     base_pay = 3
     wait_game = 20

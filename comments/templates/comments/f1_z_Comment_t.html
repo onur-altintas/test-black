@@ -9,34 +9,23 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<!-- From bucinca 2021 -->
-    <div style="text-align: center;margin-bottom: 60px"> <h3> Please provide feedback to SmartBaker Company </h3></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/11.0.2/bootstrap-slider.min.js"></script>
 
 
-        <table id="likert">
-        <tr>
-        <th></th>
-        <th width="10%"  > Strongly disagree</th>
-        <th width="10%" > Disagree</th>
-        <th width="10%" > Neutral</th>
-        <th width="10%" > Agree</th>
-        <th width="10%" > Strongly agree</th>
-        </tr>
-        {{for field in form }}
-        {% if field.name == 'c_why' %}
-        {% else %}
-        <td style="text-align: left; padding-top: 20px">{{ field.label }}</td>
-        {{for choice in field}}
-                <th style="text-align: center">{{choice}}</th>
-         {{endfor}}
-        </tr>
-        {% endif %}
-        {{endfor}}
-        </table>
+ <!--Plugin CSS file with desired skin-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css"/>
 
+    <!--jQuery-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!--Plugin JavaScript file-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
+
+
+        <div style="text-align: center;margin-bottom: 60px"> <h3> Please provide feedback to SmartBaker Company </h3></div>
         <p></p>
         <div class="dropdown-divider"></div>
-        <div class="container-sm" style="width: 600px; padding-top: 30px">
+        <div class="container-sm" style="width: 60%; padding-top: 30px">
 
         {{formfield player.c_why}}
         </div>
@@ -46,7 +35,85 @@
 <center>{{next_button}}</center>
 
 
+ <div class="modal hide fade in" id="AIfeedback" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-bs-keyboard="false" aria-hidden="true" align="center">
+                <div class="modal-dialog modal-dialog-centered modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header" >
+                            <h4 class='col-12 modal-title text-center'>
+                                SmartBaker needs your feedback </h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>
+                            <div style="padding-bottom: 40px; font-weight: 600">Overall, how much did you trust BakerAI's recommendations? <br>
+                            <div> (1- Lowest , 10- Highest) </div>
+                        </div>
+                                 Not at all  &nbsp;<input type="range" name="ai_trust" id="ai_trust" min="1" max="10" oninput="changetext()" > &nbsp; Completely
+
+<!--
+                         <input type="text" class="js-range-slider" oninput="changetext()"  value=""
+                                data-type="single"
+                                data-min="1"
+                                data-max="5"
+                                data-grid="true"
+                            />
+-->
+                                <p id="description" style="color: darkred; padding-top: 20px">Please enter your feedback</p>
+                                <p id="entry_check" value=0></p>
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-primary btn-small" onclick="closeModal()"
+                                  data-dismiss="modal" value="True" id="close_button" style="visibility: hidden">Continue</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <script>
+            $(document).ready(function(){
+                $("#AIfeedback").modal({
+                    focus:false,
+                    backdrop: 'static'})
+                $("#AIfeedback").modal('show');
+
+            });
+
+            function closeModal(){
+                $('#AIfeedback').modal('hide');
+            }
+
+            function changetext(){
+                val= document.getElementById("ai_trust").value
+                document.getElementById("description").style.color = "black"
+                document.getElementById("description").innerText="Current value is " + val
+                document.getElementById("close_button").style.visibility="visible"
+                document.getElementById("entry_check").value=1
+            }
+        </script>
 
 
+        <style>
+            .modal-dialog {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) !important;
+            }
+            .modal{
+                background-color: lightgray;
+            }
+        </style>
+        <script>
+            $(".js-range-slider").ionRangeSlider({
+                values: [
+            "0", "1", "2", "3","4","5","6","7","8","9","10"],
+                prettify_enabled: "true",
+                skin :"big",
+                snaps: "true",
+                ticks: "true"
+            });
+        </script>
+        <style>
 
+        </style>
 {% endblock %}

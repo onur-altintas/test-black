@@ -157,7 +157,7 @@
 </div>
 
 
-    <div class="container">
+    <div class="container" id="perf_table">
         <div class="row justify-content-center">
             <div class="table-responsive col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <table class="table table-bordered table-hover table-condensed" >
@@ -242,9 +242,10 @@
                         <div class="modal-body">
                             <p>
                             <div style="padding-bottom: 40px; font-weight: 600">How much do you trust BakerAI's recommendations? <br>
+                            <div> (1- Lowest , 10- Highest) </div>
                         </div>
                             <div class="range" list="tickmarks">
-                                Not at all &nbsp;<input type="range" name="ai_trust" id="ai_trust" min="0" max="10" oninput="changetext()"> &nbsp; Completely
+                                Not at all &nbsp;<input type="range" name="ai_trust" id="ai_trust" min="1" max="10" oninput="changetext()"> &nbsp; Completely
 
                                 <p id="description" style="color: darkred; padding-top: 20px">Please enter your feedback</p>
                                 <p id="entry_check" value=0></p>
@@ -261,9 +262,13 @@
 
         <script>
             $(document).ready(function(){
+                mydiv=document.getElementById("perf_table")
+                window.scrollTo({ left: 0, top: mydiv.scrollHeight -400, behavior: "smooth" });
                 $("#AIfeedback").modal({
                     focus:false,
-                    backdrop: 'static'})
+                    backdrop: 'static',
+                    overflowY: 'auto'
+                })
                 $("#AIfeedback").modal('show');
 
             });
@@ -273,7 +278,9 @@
             }
 
             function changetext(){
-                document.getElementById("description").innerText=""
+                val= document.getElementById("ai_trust").value
+                document.getElementById("description").style.color = "black"
+                document.getElementById("description").innerText="Current value is " + val
                 document.getElementById("close_button").style.visibility="visible"
                 document.getElementById("entry_check").value=1
             }
@@ -282,14 +289,18 @@
 
         <style>
             .modal-dialog {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) !important;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) !important;
+
             }
             .modal{
-                background-color: lightgray;
+                overflow-y: auto !important;
             }
+
+
+
         </style>
 {% endif %}
 

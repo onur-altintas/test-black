@@ -9,13 +9,14 @@
 
         {% if treatment == 'full' or treatment == 'partialc'%}
             <hr>
-            <p style="padding-top:0px ">
+        <h5><u> Capabilities of BakerAI </u></h5>
+            <p style="padding-top:10px ">
                 <span>
                     BakerAI's algorithm does not have enough information about your demand distribution, thus it cannot precisely predict
                     the demand for the next day. However, it chooses the best order quantity by factoring two important elements:</span>
                     <ol><span style="font-weight: 600" >
                         <li>Exploring your demand distribution by either increasing or decreasing its previous recommended order quantity</li>
-                        <li>Maximizing your profit by balancing the expected cost of ordering either too many,
+                        <li>Maximizing your cumulative profit by balancing the expected cost of ordering either too many,
                     or too few loaves of bread</li></span>
                     </ol>
                 <span>
@@ -27,7 +28,7 @@
         {% endif %}
         {% if treatment == 'full' or treatment == 'partial' %}
         <hr>
-        <p><div style="text-align: center;"><u><strong>How BakerAI software works:</strong></u><br></div></p>
+        <h5 style="padding-bottom: 10px"><u>How BakerAI makes its recommendations</u><br></h5>
 
         <div class="row justify-content-center">
             <div class="col-xs-6">
@@ -91,6 +92,7 @@
                 </div>
             </div>
         </div>
+        <div class="container mt-2" style="text-align:center"> On the next page, your understanding of how BakerAI software works will be tested. </div>
         {% endif %}
     </span>
 
