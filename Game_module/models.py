@@ -47,11 +47,11 @@ class Constants(BaseConstants):
     gamma = 0.25
     max_demand = 600
     base_pay = 3
-    wait_e1 = 20
-    wait_e2 = 40
+    wait_e1 = 0
+    wait_e2 = 0
     wait_game = 0
     wait_game_result = 0
-    wait_every5 = 5
+    wait_every5 = -5
 
 
 class Subsession(BaseSubsession):

@@ -2,8 +2,8 @@
 {% load otree static %}
 
 
-
 {% block content %}
+    {% include Constants.ahmet %}
     <div class="text-center mb-1" style="font-size:22pt; font-weight:bold"> Order for Demo Day {{ round }} </div>
     {% include Constants.instructions_template %}
       <div class="card p-3">
@@ -59,6 +59,7 @@
           window.setTimeout(countDown, 1000);
         }
     </script>
+
 
 
     {% if round == 1 %}

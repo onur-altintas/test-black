@@ -32,6 +32,7 @@ class Constants(BaseConstants):
     gamma = 0.25
     max_demand = 300
     wait_game = 0
+    ahmet = 'Demo_module_wo_AI/ahmet.html'
 
 
 class Subsession(BaseSubsession):

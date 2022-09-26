@@ -4,7 +4,7 @@ import random
 
 from Game_module.models import Constants
 
-GROUPS = ['full', 'partial', 'partialc', 'black-box', 'baseline']
+GROUPS = ['performance']
 
 
 def profit(demand, orderquantity, sale, cost):
@@ -12,7 +12,31 @@ def profit(demand, orderquantity, sale, cost):
     return prof
 
 
-def ai_rec(demand, pre_ai, round_no, gamma, max_demand, price, cost):
+def ai_rec2(demand, pre_q, pre_ai, round_no, max_demand, price, cost, censored):
+    #    epsilon = (gamma * max_demand) / (max(cost, price - cost) * (round_no + 1) ** (1 / 2))
+    epsilon = max_demand / (max(price, cost) * (round_no + 0))
+    decrease_h_t = cost
+    increase_h_t = -(price - cost)
+    if censored:
+        if pre_q <= demand:
+            second_term = pre_q - epsilon * increase_h_t
+        elif demand > pre_q:
+            second_term = pre_q - epsilon * decrease_h_t
+        else:
+            second_term = - 100000
+        recommendation = min(max_demand, max(second_term, 0))
+    else:
+        if demand <= pre_ai:
+            second_term = pre_ai - epsilon * decrease_h_t
+        elif demand > pre_ai:
+            second_term = pre_ai - epsilon * increase_h_t
+        else:
+            second_term = -10000
+        recommendation = min(max_demand, max(second_term, 0))
+    return round(recommendation)
+
+
+def ai_rec(demand, pre_ai, round_no, max_demand, price, cost):
     #    epsilon = (gamma * max_demand) / (max(cost, price - cost) * (round_no + 1) ** (1 / 2))
     epsilon = max_demand / (max(price, cost) * (round_no + 0))
     decrease_h_t = cost
@@ -23,9 +47,12 @@ def ai_rec(demand, pre_ai, round_no, gamma, max_demand, price, cost):
         second_term = pre_ai - epsilon * increase_h_t
     else:
         second_term = -10000
-
-    recommendation = min(max_demand, second_term)
+    recommendation = min(max_demand, max(second_term, 0))
     return round(recommendation)
+
+
+##ai_recommendation = ai_rec(p_demand, p_orderquantity2, p_ai, p_round, Constants.max_demand,
+##                                       Constants.sale_price, Constants.cost, self.session.config['censored'] )
 
 
 def get_timeout_seconds(player):
@@ -170,9 +197,10 @@ class f0_G_AA(Page):
         else:
             p_demand = players[self.round_number - 2].demand
             p_ai = players[self.round_number - 2].ai_recommend
+            p_orderquantity2 = players[self.round_number -2].orderquantity2
             p_round = self.round_number - 1
 
-            ai_recommendation = ai_rec(p_demand, p_ai, p_round, Constants.gamma, Constants.max_demand,
+            ai_recommendation = ai_rec(p_demand, p_ai, p_round, Constants.max_demand,
                                        Constants.sale_price, Constants.cost)
 
         self.player.ai_recommend = ai_recommendation

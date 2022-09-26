@@ -20,17 +20,6 @@ def profit(demand, orderquantity, sale, cost):
 #     recommendation = min(max_demand, second_term)
 #     return round(recommendation)
 
-def ai_rec(sales, pre_ai, round_no, gamma, max_demand, price, cost):
-    epsilon = max_demand / (max(price, cost) * (round_no + 20))
-    increase_ht = -(price - cost)
-    decrease_ht = cost
-    if sales == pre_ai:
-        rec = pre_ai - epsilon * increase_ht
-    elif sales < pre_ai:
-        rec = pre_ai - epsilon * decrease_ht
-
-    return min(max_demand, max(round(rec, 0), 0))
-
 
 def get_timeout_seconds(player):
     import time
@@ -53,6 +42,10 @@ class e_Demo_Game_w(Page):
         players = self.player.in_previous_rounds()
         profits = [p.profit for p in players]
         cum_profit = sum(profits)
+
+        @staticmethod
+        def js_vars(player):
+            return dict(profits=[p.profit for p in player.in_previous_rounds()])
 
         return {
             'hist_dem': hist_dem,
